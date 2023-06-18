@@ -1,19 +1,20 @@
 import Image from 'next/image'
-import KeynoteButton from '@/component/KeynoteButton'
-import UseCaseCard from '@/component/UseCaseCard'
+import KeynoteButton from '@/components/KeynoteButton'
+import UseCaseCard from '@/components/UseCaseCard'
 import { UseCardProps } from '@/types'
+import React from 'react'
 import { demoUseCardsCollection } from '@/constants'
 
 export default function Home() {
   return (
     <main className="main">
 
-      <header className="flex justify-between items-end px-[72px] pt-[42px] ">
+      <header className="flex justify-between items-end ml-[72px] mr-[60px] mt-[42px]">
         <div className="flex">
           <Image src="/Logo.svg" alt="Logo" width={98} height={92} />
         </div>
         <div className="flex space-x-[60px] items-center">
-          <div className='flex justify-between space-x-[42px] text-[18px] text-[#333333]'>
+          <div className='flex justify-between space-x-[32px] text-[18px] text-[#333333]'>
             <div>
               <a href='github.com'>Faucet</a>
             </div>
@@ -40,14 +41,12 @@ Generate NFT arts with distributed AI compute power on Cybros and mint them on E
         </div>
         <p className='text-[24px] text-black pt-[48px]'>Playground</p>
         <p className='text=[15px] text-black pt-[12px]'>Discover the power of Cybros through playful use-case demonstrations.</p>
-        <div>
-        <div className='grid grid-cols-3 gap-[21px]'>
+        <div className='grid grid-cols-3gap gap-[21px]'>
           {
-          demoUseCardsCollection.map((card: UseCardProps) => (
-            <UseCaseCard key={card.title} {...card} />
-          ))
+            demoUseCardsCollection.map((card: UseCardProps) => (
+              <UseCaseCard key={card.title} {...card} />
+            ))
           }
-        </div>
         </div>
       </div>
     </main>
