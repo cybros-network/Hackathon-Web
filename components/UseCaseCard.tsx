@@ -1,7 +1,7 @@
 import { UseCardProps } from "@/types"
 
 const UseCaseCard = (props: UseCardProps) => {
-    let bgColor = props.backgroudColor ? props.backgroudColor : "bg-[#FF6F2D0F]"
+    let bgColor = props.backgroudColor ? props.backgroudColor : "#FF6F2D0F"
     return (
         <div className="flex flex-col justify-between box-border rounded-[15px] border-2 border-solid border-[#828282] w-[314px] h-[235px] pb-[15px] p-[18px]" style={{ backgroundColor: bgColor}}>
             <p className="text-[18px] font-medium leading-2 text-[#4F4F4F] line-clamp-2 flex-shrink-0 mb-2">{props.title}</p>
