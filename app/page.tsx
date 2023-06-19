@@ -1,6 +1,6 @@
 import Image from 'next/image'
-import KeynoteButton from '@/component/KeynoteButton'
-import UseCaseCard from '@/component/UseCaseCard'
+import KeynoteButton from '@/components/KeynoteButton'
+import UseCaseCard from '@/components/UseCaseCard'
 import { UseCardProps } from '@/types'
 import { demoUseCardsCollection } from '@/constants'
 
@@ -41,7 +41,7 @@ Generate NFT arts with distributed AI compute power on Cybros and mint them on E
         <p className='text-[24px] text-black pt-[48px]'>Playground</p>
         <p className='text=[15px] text-black pt-[12px]'>Discover the power of Cybros through playful use-case demonstrations.</p>
         <div>
-        <div className='grid grid-cols-3 gap-[21px]'>
+        <div className='grid grid-cols-3 gap-[21px] mt-4'>
           {
           demoUseCardsCollection.map((card: UseCardProps) => (
             <UseCaseCard key={card.title} {...card} />
