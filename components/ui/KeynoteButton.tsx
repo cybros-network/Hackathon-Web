@@ -10,7 +10,7 @@ const KeynoteButton = () => {
         </div>
         <div className="text-base text-[#4F4F4F]">Keynote</div>
       </div>
-    </div>
+      </div>
   )
 }
 

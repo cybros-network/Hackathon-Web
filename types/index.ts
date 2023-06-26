@@ -6,3 +6,12 @@ export interface UseCardProps {
     link?: string;
     backgroundColor?: string;
 }
+
+export interface AIGCCardProps {
+    id: string;
+    imageUrl?: string;
+    status: 'Minted' | 'Generated' | 'Pending' | 'Failed' | 'Generating';
+    meta?: any
+    owner: string;
+    requestHash: string;
+}
