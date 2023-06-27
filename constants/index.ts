@@ -1,5 +1,11 @@
 import { UseCardProps } from "@/types"
 import { AIGCCardProps } from "@/types";
+import { DM_Mono} from "next/font/google";
+
+export const dm_mono_font = DM_Mono({
+    weight: "300",
+    subsets: ["latin"],
+})
 
 export const demoUseCardsCollection: UseCardProps[] = [
     {
@@ -14,7 +20,7 @@ export const demoUseCardsCollection: UseCardProps[] = [
         link: "/broadcast",
         backgroundColor: "#BCFF2D0F"
     },
-    
+
 ]
 
 export const demoAIGCCardsCollection: AIGCCardProps[] = [

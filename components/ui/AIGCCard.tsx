@@ -1,7 +1,9 @@
-'use client'
 import React from 'react'
 import { AIGCCardProps } from '@/types'
 import Image from 'next/image'
+import { dm_mono_font } from '@/constants'
+import Link from 'next/link'
+
 
 
 const AIGCCard = ({ id, imageUrl, status, meta, owner, requestHash }: AIGCCardProps) => {
@@ -18,54 +20,57 @@ const AIGCCard = ({ id, imageUrl, status, meta, owner, requestHash }: AIGCCardPr
 
   const Infobuilder = ({ title, info }: { title: string, info: string }) => {
     return (
-      <div className='flex flex-col justify-start mt-1'>
-        <p className='font-medium leading-5 text-[#4f4f4f]'>{title}</p>
-        <p className="text-xs font-['DM_Mono'] text-[#333333] line-clamp-2 h-[34px]">{info}</p>
+      <div className='flex flex-col justify-start gap-[3px]'>
+        <p className='font-medium text-[16px] leading-21 text-cb-normal'>{title}</p>
+        <div className={dm_mono_font.className}>
+          <p className="text-[13px] text-cb-value line-clamp-2 h-[34px] leading-[16.93px]">{info}</p>
+        </div>
       </div>
     )
   }
 
-  const ActionArea = ({ status }: { status: 'Minted' | 'Generated' | 'Pending' | 'Failed' | 'Generating' }) => {
+  const ActionArea = ({ status, url }: { status: 'Minted' | 'Generated' | 'Pending' | 'Failed' | 'Generating', url: string }) => {
     const canMint = status === 'Generated'
     return (
-      <div>
-        <div className='flex flex-row justify-between gap-2 h-11'>
-          {canMint && <button className='border-solid border-[#219653] bg-white border-2 rounded-lg text-[#219653] w-full'>Mint</button> }
-          <button className="border-solid border-[#828282] bg-white border-2 rounded-lg justify-center  w-full">
-              Metadata
-            </button>
-        </div>
+      <div className='flex flex-row justify-between gap-2 h-[45px] text-[16px] leading-21 font-medium -mx-[3px]'>
+        {canMint && <button className='shadow-cb rounded-15 shadow-[#219653] bg-white text-[#219653] w-full'>Mint</button>}
+        <Link href={url} className="flex shadow-cb bg-white rounded-15 w-full justify-center items-center">
+          <p className='text-center'>
+            Metadata
+        </p>
+      </Link>
       </div >
     )
   }
 
-  const imgSrc = imageUrl || `/cat-pl.jpg`
-  const bgColor = statusBGColor(status)
+const imgSrc = imageUrl || `/cat-pl.jpg`
+const bgColor = statusBGColor(status)
 
 
 
-  return (
-    <div className=' border-solid border-[#828282] border-2 rounded-lg' style={{ backgroundColor: bgColor }}>
-      <div className='flex flex-col mx-4 my-5 gap-2'>
-        <div className='flex flex-row justify-between'>
-          <p>#{id}</p>
-          <p>Status: {status}</p>
-        </div>
-        <Image className='w-full aspect-square bg-[#E1E1E1] border-solid border-[#4f4f4f] border-2 rounded-lg'
-          src={imgSrc}
-          alt=''
-          style={{ objectFit: 'fill' }}
-          width={40}
-          height={40}
-        >
-        </Image>
+return (
+  <div className='shadow-cb rounded-15' style={{ backgroundColor: bgColor }}>
+    <div className='flex flex-col mx-[18px] my-[19px] gap-2'>
+      <div className='flex justify-between leading-21 text-[16px] font-medium'>
+        <p >#{id}</p>
+        <p>Status: {status}</p>
+      </div>
+      <Image className='w-[284px] h-[284px] aspect-square bg-[#E1E1E1] shadow-cb rounded-12'
+        src={imgSrc}
+        alt=''
+        style={{ objectFit: 'fill' }}
+        width={40}
+        height={40}
+      >
+      </Image>
+      <div className='flex flex-col mt-1 gap-[6px]'>
         <Infobuilder title='Owner' info={owner} />
         <Infobuilder title='Request Tx Hash' info={requestHash} />
-        <ActionArea status={status} />
-
+        <ActionArea status={status} url= {`/aigc/${id}`} />
       </div>
     </div>
-  )
+  </div>
+)
 }
 
 export default AIGCCard

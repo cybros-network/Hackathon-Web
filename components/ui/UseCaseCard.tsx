@@ -5,17 +5,20 @@ const UseCaseCard = (props: UseCardProps) => {
     let bgColor = props.backgroundColor ? props.backgroundColor : "#FF6F2D0F"
     let cardLink = props.link || "/"
     return (
-        
-        <div className="flex flex-col justify-between box-border rounded-[15px] border-2 border-solid border-[#828282] w-[314px] h-[235px] pb-[15px] p-[18px]" style={{ backgroundColor: bgColor}}>
-            <p className="text-[18px] font-medium leading-2 text-[#4F4F4F] line-clamp-2 flex-shrink-0 mb-2">{props.title}</p>
-            <p id="summary" className="text-[13px] leading-4 text-[#4F4F4F] text-ellipsis overflow-hidden mb-2">{props.summary}</p>
-            <div className='grow mb-0'></div>
-            <p className='text-[12px] font-medium flex-shrink-0 mb-2'>The demo needs Polygon token to work with.</p>
-            <Link href={cardLink} className="flex justify-center items-center h-11 box-border rounded-[15px] border-2 border-solid border-[#828282] bg-white">
-            <p className="font-medium text-black text-[16px]"
-            >Go
-            </p>
-            </Link>
+        <div className="flex flex-col justify-between rounded-15 shadow-cb w-[314px] h-[235px]  text-cb-normal" style={{ backgroundColor: bgColor }}>
+            <div className="mt-[19px] mx-[18px]">
+                <p className="text-[18px] font-medium line-clamp-2 flex-shrink-0">{props.title}</p>
+                <p className="text-[13px] text-ellipsis overflow-hidden mt-2 leading-4">{props.summary}</p>
+                <p className="grow -mt-2" />
+            </div>
+            <div className="mb-[15px] mx-[15px]">
+                <p className='mx-[3px] text-[12px] font-medium flex-shrink-0'>The demo needs Polygon token to work with.</p>
+                <Link href={cardLink} className="flex justify-center items-center h-[45px] rounded-15 shadow-cb bg-white mt-3">
+                    <p className="font-medium text-[16px] leading-21"
+                    >Go
+                    </p>
+                </Link>
+            </div>
         </div>
     )
 }

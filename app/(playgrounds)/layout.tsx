@@ -20,9 +20,9 @@ export default function RootLayout({
     <html lang="en">
       <body className={inter.className}>
         <main>
-          <header className="flex flex-row justify-between mx-[72px] mt-[42px] h-14">
-            <div className="flex gap-5">
-              <div className='w-11 h-11'>
+          <header className="flex flex-row justify-between mt-[51px] ml-[42px] mr-[54px] h-[59px] text-cb-value">
+            <div className="flex items-start gap-[21px]">
+              <div className='w-[42px] h-[42px]'>
                 <Image
                   src="/Logo Solo.svg"
                   alt=''
@@ -30,48 +30,28 @@ export default function RootLayout({
                   height={42}
                 />
               </div>
-              <div className="flex text-2xl text-[#333333] mt-4">
+              <div className="text-[24px] leading-[29px] mt-[18px]">
                 Cybros Playground
               </div>
             </div>
-            <div className='flex justify-between gap-9 ml-16 mr-auto mt-6'>
-              <Link href='/'>
-                <div className="text-lg leading-[21px] text-[#333333]">
-                  NFT Renderer Demo
-                </div>
-              </Link>
-              <Link href='/'>
-                <div className="text-lg leading-[21px] text-[#333333]">
-                  Broadcast Demo
-                </div>
-              </Link>
-              <Link href='/'>
-                <div className="text-lg leading-[21px] text-[#333333] ">
-                  Faucet
-                </div>
-              </Link>
-              <Link href='/'>
-                <div className="ttext-lg leading-[21px] text-[#333333]">
-                  Github
-                </div>
-              </Link>
-              <Link href='/'>
-                <div className="text-lg leading-[21px] text-[#333333]">
-                  Polkadot.js
-                </div>
-              </Link>
-
+            <div className='flex justify-between gap-9 ml-[72px] mr-auto mt-6 leading-[21px] text-[18px]'>
+              <Link href='/aigc'> NFT Renderer Demo</Link>
+              <Link href='/broadcast'>Broadcast Demo</Link>
+              <Link href='/faucet'>Faucet</Link>
+              <Link href='https://github.com'>Github</Link>
+              <Link href='/'>Polkadot.js</Link>
             </div>
-            <div className="border-solid border-[#828282] border-2 rounded-lg bg-white flex flex-row justify-center mt-2 gap-3 w-48 h-12 items-center">
+            <div className="shadow-cb rounded-15 bg-white flex mt-[10px] gap-[13px] w-[200px] items-start">
               <Image
+                className='w-[21px] h-[21px] ml-6 mt-[14px]'
                 src="/wallet-icon.svg"
                 alt=''
                 width={21}
                 height={21}
               />
-              <div className="font-medium leading-[21px] text-[#333333]">
+              <p className="font-medium leading-[21px] text-[16px] mt-[15px]">
                 Connect Wallet
-              </div>
+              </p>
             </div>
           </header>
           {children}

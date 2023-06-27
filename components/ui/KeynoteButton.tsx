@@ -3,14 +3,12 @@ import { Inter } from "next/font/google"
 
 const KeynoteButton = () => {
   return (
-    <div className="flex">
-      <div className="flex pl-[25px] pr-[30px] py-[13px] bg-[#FFFFFF8F] box-border border-solid border-2 border-[#828282] rounded-[15px]">
-        <div className="mr-[10px]">
-          <Image src="/Spiral.svg" alt="" width={24} height={24} />
-        </div>
-        <div className="text-base text-[#4F4F4F]">Keynote</div>
+    <div className="flex bg-white/[0.52] shadow-cb rounded-15 w-[196px] h-[49px]">
+      <div className="flex items-end gap-[9px] ml-[25px] mb-[13px]">
+        <Image src="/Spiral.svg" alt="" width={24} height={24} />
+        <div className="text-[18px] text-cb-normal leading-24 font-medium">The Keynote</div>
       </div>
-      </div>
+    </div>
   )
 }
 
