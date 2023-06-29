@@ -3,6 +3,7 @@ import { Inter } from 'next/font/google'
 import React from 'react'
 import Image from 'next/image'
 import Link from 'next/link'
+import { GITHUB_URL, ON_POLKADOT_URL } from '@/constants'
 
 const inter = Inter({ subsets: ['latin'] })
 
@@ -36,10 +37,9 @@ export default function RootLayout({
             </div>
             <div className='flex justify-between gap-9 ml-[72px] mr-auto mt-6 leading-[21px] text-[18px]'>
               <Link href='/aigc'> NFT Renderer Demo</Link>
-              <Link href='/broadcast'>Broadcast Demo</Link>
               <Link href='/faucet'>Faucet</Link>
-              <Link href='https://github.com'>Github</Link>
-              <Link href='/'>Polkadot.js</Link>
+              <Link href={GITHUB_URL}>Github</Link>
+              <Link href={ON_POLKADOT_URL}>Polkadot.js</Link>
             </div>
 
           </header>
