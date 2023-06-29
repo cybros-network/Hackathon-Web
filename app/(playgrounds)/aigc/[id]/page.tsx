@@ -1,6 +1,6 @@
 import React from 'react'
 import Image from 'next/image'
-import { GITHUB_URL, ON_POLKADOT_URL, dm_mono_font } from '@/constants'
+import { FAUCET_URL, GITHUB_URL, ON_POLKADOT_URL, dm_mono_font } from '@/constants'
 import Link from 'next/link'
 import { WalletButton } from '@/components'
 
@@ -38,7 +38,7 @@ export default function Page({ params }: { params: { id: string } }) {
                     </div>
                 </div>
                 <div className='flex justify-between gap-9 ml-[72px] mr-auto mt-6 leading-[21px] text-[18px]'>
-                    <Link href='/faucet'>Faucet</Link>
+                    <Link href={FAUCET_URL}>Faucet</Link>
                     <Link href='/aigc'> NFT Renderer</Link>
                     <Link href='/'>Push</Link>
                     <Link href={GITHUB_URL}>Github</Link>
