@@ -21,28 +21,7 @@ export default function RootLayout({
     <html lang="en">
       <body className={inter.className}>
         <main>
-          <header className="flex flex-row justify-between mt-[51px] ml-[42px] mr-[54px] h-[59px] text-cb-value">
-            <div className="flex items-start gap-[21px]">
-              <div className='w-[42px] h-[42px]'>
-                <Image
-                  src="/Logo Solo.svg"
-                  alt=''
-                  width={42}
-                  height={42}
-                />
-              </div>
-              <div className="text-[24px] leading-[29px] mt-[18px]">
-                Cybros Playground
-              </div>
-            </div>
-            <div className='flex justify-between gap-9 ml-[72px] mr-auto mt-6 leading-[21px] text-[18px]'>
-              <Link href='/aigc'> NFT Renderer Demo</Link>
-              <Link href='/faucet'>Faucet</Link>
-              <Link href={GITHUB_URL}>Github</Link>
-              <Link href={ON_POLKADOT_URL}>Polkadot.js</Link>
-            </div>
-
-          </header>
+          
           {children}
         </main>
       </body>

@@ -1,6 +1,8 @@
 import React from 'react'
 import Image from 'next/image'
-import { dm_mono_font } from '@/constants'
+import { GITHUB_URL, ON_POLKADOT_URL, dm_mono_font } from '@/constants'
+import Link from 'next/link'
+import { WalletButton } from '@/components'
 
 export default function Page({ params }: { params: { id: string } }) {
 
@@ -14,13 +16,48 @@ export default function Page({ params }: { params: { id: string } }) {
             <div className="flex flex-col justify-start gap-[3px]">
                 <p className='font-medium leading-21 text-cb-normal w-full'>{title}</p>
                 <div className={dm_mono_font.className}>
-                <p className="text-[13px] leading-[17px] text-cb-value w-full line-clamp-2">{info}</p>
+                    <p className="text-[13px] leading-[17px] text-cb-value w-full line-clamp-2">{info}</p>
                 </div>
             </div>
         )
     }
     return (
         <div className=' text-black'>
+            <header className="flex flex-row justify-between mt-[51px] ml-[42px] mr-[54px] h-[59px] text-cb-value">
+                <div className="flex items-start gap-[21px]">
+                    <div className='w-[42px] h-[42px]'>
+                        <Image
+                            src="/Logo Solo.svg"
+                            alt=''
+                            width={42}
+                            height={42}
+                        />
+                    </div>
+                    <div className="text-[24px] leading-[29px] mt-[18px]">
+                        Cybros Playground
+                    </div>
+                </div>
+                <div className='flex justify-between gap-9 ml-[72px] mr-auto mt-6 leading-[21px] text-[18px]'>
+                    <Link href='/faucet'>Faucet</Link>
+                    <Link href='/aigc'> NFT Renderer</Link>
+                    <Link href='/'>Push</Link>
+                    <Link href={GITHUB_URL}>Github</Link>
+                    <Link href={ON_POLKADOT_URL}>Polkadot.js</Link>
+                </div>
+                <div className="shadow-cb rounded-15 bg-white flex mt-[10px] gap-[13px] w-[200px] items-start">
+                    <Image
+                        className='w-[21px] h-[21px] ml-6 mt-[14px]'
+                        src="/wallet-icon.svg"
+                        alt=''
+                        width={21}
+                        height={21}
+                    />
+                    <p className="font-medium leading-[21px] text-[16px] mt-[15px]">
+                        Connect Wallet
+                    </p>
+                </div>
+            </header>
+
             <div className=' mt-[60px] mx-[105px]'>
                 <p className="text-4xl font-semibold leading-[44px]">
                     Job #42

@@ -11,4 +11,5 @@ export interface AIGCCardProps {
     meta?: any
     owner: string;
     requestHash: string;
+    fancied?: number
 }

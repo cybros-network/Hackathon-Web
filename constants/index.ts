@@ -18,12 +18,14 @@ export const demoAIGCCardsCollection: AIGCCardProps[] = [
         status: 'Minted',
         owner: 'owner 1',
         requestHash: 'request hash 1',
+        fancied: 1,
     },
     {
         id: '2',
         status: 'Generated',
         owner: 'owner 2',
         requestHash: 'request hash 2',
+        fancied: 114514
     },
     {
         id: '3',
