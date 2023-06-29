@@ -6,7 +6,7 @@ import Link from 'next/link'
 
 
 
-const AIGCCard = ({ id, imageUrl, status, meta, owner, requestHash }: AIGCCardProps) => {
+const AIGCCard = ({ id, imageUrl, status, meta, owner, requestHash, fancied }: AIGCCardProps) => {
   const statusBGColor = (status: 'Minted' | 'Generated' | 'Pending' | 'Failed' | 'Generating') => {
     switch (status) {
       case 'Minted': return '#00983D0F'
@@ -37,40 +37,50 @@ const AIGCCard = ({ id, imageUrl, status, meta, owner, requestHash }: AIGCCardPr
         <Link href={url} className="flex shadow-cb bg-white rounded-15 w-full justify-center items-center">
           <p className='text-center'>
             Metadata
-        </p>
-      </Link>
+          </p>
+        </Link>
       </div >
     )
   }
 
-const imgSrc = imageUrl || `/cat-pl.jpg`
-const bgColor = statusBGColor(status)
+  const imgSrc = imageUrl || `/cat-pl.jpg`
+  const bgColor = statusBGColor(status)
 
 
 
-return (
-  <div className='shadow-cb rounded-15' style={{ backgroundColor: bgColor }}>
-    <div className='flex flex-col mx-[18px] my-[19px] gap-2'>
-      <div className='flex justify-between leading-21 text-[16px] font-medium'>
-        <p >#{id}</p>
-        <p>Status: {status}</p>
-      </div>
-      <Image className='w-[284px] h-[284px] aspect-square bg-[#E1E1E1] shadow-cb rounded-12'
-        src={imgSrc}
-        alt=''
-        style={{ objectFit: 'fill' }}
-        width={40}
-        height={40}
-      >
-      </Image>
-      <div className='flex flex-col mt-1 gap-[6px]'>
-        <Infobuilder title='Owner' info={owner} />
-        <Infobuilder title='Request Tx Hash' info={requestHash} />
-        <ActionArea status={status} url= {`/aigc/${id}`} />
+  return (
+    <div className='shadow-cb rounded-15' style={{ backgroundColor: bgColor }}>
+      <div className='flex flex-col mx-[18px] my-[19px] gap-2'>
+        <div className='flex justify-between leading-21 text-[16px] font-medium'>
+          <p >#{id}</p>
+          <p>Status: {status}</p>
+        </div>
+        <div className='w-[284px] h-[284px] bg-[#E1E1E1] shadow-cb rounded-12 relative'>
+          <Image className='h-full w-full aspect-square '
+            src={imgSrc}
+            alt=''
+            style={{ objectFit: 'fill' }}
+            width={40}
+            height={40}
+          >
+          </Image>
+          { fancied && 
+          (<div className='absolute right-[6px] bottom-[9px] rounded-15 bg-white text-[#FF2828] font-medium leading-21'>
+             <div className='flex justify-between gap-[7px] mx-3 my-1'> 
+              <p className='text-[14px] font-normal leading-21'>❤️</p>
+              <p className='text-[14px] text-[#FF2828] font-medium leading-21'>{fancied}</p>
+             </div>
+          </div>
+          )}
+        </div>
+        <div className='flex flex-col mt-1 gap-[6px]'>
+          <Infobuilder title='Owner' info={owner} />
+          <Infobuilder title='Request Tx Hash' info={requestHash} />
+          <ActionArea status={status} url={`/aigc/${id}`} />
+        </div>
       </div>
     </div>
-  </div>
-)
+  )
 }
 
 export default AIGCCard
