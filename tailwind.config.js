@@ -11,9 +11,13 @@ module.exports = {
         "app-background": "#F1F1F1",
         "cb-value": "#333333",
         'cb-normal': '#4F4F4F',
+        'entrance-aigc': "#A43737",
+        'entrance-github': "#3C3C3C",
+        'entrance-discord': "#374FA6",
+        'entrance-testnet': "#A45E37",
       },
       boxShadow: {
-        'cb': '0 0 0 2px #828282',
+        'cb': 'inset 0 0 0 2px #828282',
       },
       lineHeight: {
         '21': '21px',
