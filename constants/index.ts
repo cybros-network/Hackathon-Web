@@ -1,27 +1,16 @@
-import { UseCardProps } from "@/types"
 import { AIGCCardProps } from "@/types";
+import exp from "constants";
 import { DM_Mono} from "next/font/google";
+
+export const GITHUB_URL = "https://github.com/"
+export const DC_URL = "https://discord.com/"
+export const FAUCET_URL = "/";
+export const ON_POLKADOT_URL = "/";
 
 export const dm_mono_font = DM_Mono({
     weight: "300",
     subsets: ["latin"],
 })
-
-export const demoUseCardsCollection: UseCardProps[] = [
-    {
-        title: "NFT Renderer Demo (Polygon)",
-        summary: "Use accounts on EVM-compatible chains to generate NFT arts with distributed AI compute power on Cybros and mint them on OpenSea.",
-        link: "/aigc",
-        backgroundColor: "#FF6F2D0F"
-    },
-    {
-        title: "Broadcast Demo (Native)",
-        summary: "Dummy social-fi demo to broadcast message to subscribers on Telegram bot.",
-        link: "/broadcast",
-        backgroundColor: "#BCFF2D0F"
-    },
-
-]
 
 export const demoAIGCCardsCollection: AIGCCardProps[] = [
     {

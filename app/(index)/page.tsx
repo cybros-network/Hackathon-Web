@@ -1,8 +1,7 @@
 import Image from 'next/image'
-import { KeynoteButton, UseCaseCard } from '@/components'
-import { UseCardProps } from '@/types'
-import { demoUseCardsCollection } from '@/constants'
+import { KeynoteButton, IndexEntranceCard } from '@/components'
 import React from 'react'
+import { DC_URL, GITHUB_URL } from '@/constants'
 
 export default function Home() {
   return (
@@ -14,13 +13,10 @@ export default function Home() {
         <div className="flex gap-[60px] items-end">
           <div className='flex justify-between gap-[42px] text-[18px] text-cb-value leading-21 mb-[19px]'>
             <div>
-              <a href='/faucet'>Faucet</a>
+              <a href={GITHUB_URL}>Github</a>
             </div>
             <div>
-              <a href='https://github.com'>Github</a>
-            </div>
-            <div>
-              <a href='/'>Polkadot.js</a>
+              <a href={DC_URL}>Discord</a>
             </div>
           </div>
           <div className='mb-[5px]'>
@@ -36,18 +32,14 @@ export default function Home() {
 
 Generate NFT arts with distributed AI compute power on Cybros and mint them on Ethereum. Generate NFT arts with distributed AI compute power on Cybros and mint them on Ethereum.`}
         </div>
-        <div className='-mx-[3px] mt-[36px]'>
-          <KeynoteButton />
-        </div>
-        <p className='text-[24px] mt-12 leading-[29px]'>Playground</p>
-        <p className='text=[15px] leading-22 mt-3'>Discover the power of Cybros through playful use-case demonstrations.</p>
         <div className='-mx-[3px] my-[30px]'>
-          <div className='flex flex-wrap gap-[21px]'>
-            {
-              demoUseCardsCollection.map((card: UseCardProps) => (
-                <UseCaseCard key={card.title} {...card} />
-              ))
-            }
+          <div className='flex flex-col justify-start gap-[21px]'>
+            <IndexEntranceCard type='aigc' />
+            <div className='flex flex-row justify-start gap-[18px]'>
+            <IndexEntranceCard type='github' />
+            <IndexEntranceCard type='discord' />
+            <IndexEntranceCard type='testnet' />
+            </div>
           </div>
         </div>
       </div>
