@@ -1,5 +1,5 @@
-import Image from "next/image"
-import { Inter } from "next/font/google"
+import Image from "next/image";
+import { Inter } from "next/font/google";
 
 const KeynoteButton = () => {
   return (
@@ -9,7 +9,7 @@ const KeynoteButton = () => {
         <div className="text-[18px] text-cb-normal leading-24 font-medium">The Keynote</div>
       </div>
     </div>
-  )
-}
+  );
+};
 
-export default KeynoteButton
+export default KeynoteButton;

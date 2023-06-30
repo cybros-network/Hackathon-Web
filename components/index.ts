@@ -4,8 +4,8 @@ import WalletButton from "./ui/WalletButton";
 import AIGCCard from "./ui/AIGCCard";
 
 export { 
-    KeynoteButton, 
-    IndexEntranceCard,
-    WalletButton,
-    AIGCCard
+  KeynoteButton, 
+  IndexEntranceCard,
+  WalletButton,
+  AIGCCard
 };

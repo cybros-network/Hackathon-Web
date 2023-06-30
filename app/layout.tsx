@@ -1,9 +1,14 @@
 import "app/globals.css";
 import { Inter } from "next/font/google";
-import StyledComponentsRegistry from "../registry";
 import React from "react";
+import StyledComponentsRegistry from "@/app/registry";
 
 const inter = Inter({ subsets: ["latin"] });
+
+export const metadata = {
+  title: "Cybros",
+  description: "Web3 Job Scheduler connecting everything",
+};
 
 export default function RootLayout({
   children,
@@ -13,9 +18,7 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body className={inter.className}>
-        <main>
-          <StyledComponentsRegistry>{children}</StyledComponentsRegistry>
-        </main>
+        <StyledComponentsRegistry>{children}</StyledComponentsRegistry>
       </body>
     </html>
   );
