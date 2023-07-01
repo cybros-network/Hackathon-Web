@@ -8,6 +8,7 @@ const POOL_IMPL_ID = 1
 const KEY_QUEUED_SIZE = ["QUEUED_SIZE"];
 const KEY_PROCESSED_HEIGHT = ["PROCESSED_HEIGHT"];
 const KEY_PREFIX_JOB = ["JOB"];
+const KEY_PREFIX_JOB_LIKE_COUNT = ["JOB_LIKE_COUNT"];
 
 export default async function indexerLoop(kv, endpoint) {
   await cryptoWaitReady();
@@ -51,7 +52,7 @@ async function indexer(kv, api) {
       targetHeight = (await api.derive.chain.bestNumberFinalized()).toNumber();
       continue;
     }
-    console.log(`Processed #${processedHeight}, target #${targetHeight}`);
+    // console.log(`Processed #${processedHeight}, target #${targetHeight}`);
 
     const curr = processedHeight + 1;
     const batch = kv.atomic();
@@ -67,32 +68,84 @@ async function indexer(kv, api) {
       jobCache[id] = q.value
       return jobCache[id]
     }
+    const tryGetJob = async (id) => {
+      const ret = await getJob(id)
+      if (!ret) {
+        throw new Error('Cached job not found!')
+      }
+      return ret
+    }
 
     const hash = await api.rpc.chain.getBlockHash(curr)
     const apiAt = await api.at(hash)
     const events = (await apiAt.query.system.events()).toHuman()
+    const ts = (await apiAt.query.timestamp.now()).toJSON()
 
     for (const e of events) {
       if (e.event.section !== 'offchainComputing') continue
-      console.log(e.event)
+      let job
+      const data = e.event.data
       switch (e.event.method) {
         case 'JobCreated':
+          jobCache[data.jobId] = {
+            status: 'pending',
+            createdIn: curr,
+            jobId: data.jobId,
+            poolId: data.poolId,
+            policyId: data.policyId,
+            owner: data.owner,
+            implSpecVersion: data.implSpecVersion,
+            input: data.input,
+            assignment: null,
+            result: null,
+            createdAt: ts,
+            updatedAt: Date.now()
+          }
+          console.log(`Job #${data.jobId} created in block #${curr}`)
           break;
         case 'JobAssigned':
-          break;
-        case 'JobReleased':
+          job = await tryGetJob(data.jobId)
+          jobCache[data.jobId] = {
+            ...job,
+            status: 'generating',
+            updatedAt: Date.now(),
+            assignment: {
+              assignee: data.assignee,
+              createdIn: curr,
+              createdAt: ts
+            }
+          }
+          console.log(`Job #${data.jobId} assigned to ${data.assignee} in block #${curr}`)
           break;
         case 'JobStatusUpdated':
+          // currently ignored
           break;
         case 'JobResultUpdated':
+          job = await tryGetJob(data.jobId)
+          jobCache[data.jobId] = {
+            ...job,
+            status: 'done',
+            updatedAt: Date.now(),
+            result: {
+              status: data.result,
+              output: data.output,
+              createdIn: curr,
+              createdAt: ts
+            }
+          }
+          console.log(`Job #${data.jobId} finished in block #${curr}`)
           break;
         default:
           break;
       }
     }
 
+    for (const v of Object.values(jobCache)) {
+      batch.set([...KEY_PREFIX_JOB, v.jobId], v)
+    }
+
     batch.set(KEY_PROCESSED_HEIGHT, curr);
-    // await batch.commit();
+    await batch.commit();
     processedHeight = curr;
 
     if (targetHeight <= processedHeight) {
