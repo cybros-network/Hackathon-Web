@@ -15,6 +15,8 @@ export default function Page({ params }: { params: { id: string } }) {
     info: string;
   }
 
+  console.log(params.id);
+
   const PlaygroundInfo = ({ title, info }: PlaygroundCardTemplatePayload) => {
     return (
       <div className="flex flex-col justify-start gap-[3px]">
@@ -45,18 +47,7 @@ export default function Page({ params }: { params: { id: string } }) {
           <Link href={GITHUB_URL}>Github</Link>
           <Link href={ON_POLKADOT_URL}>Polkadot.js</Link>
         </div>
-        <div className="shadow-cb rounded-15 bg-white flex mt-[10px] gap-[13px] w-[200px] items-start">
-          <Image
-            className="w-[21px] h-[21px] ml-6 mt-[14px]"
-            src="/wallet-icon.svg"
-            alt=""
-            width={21}
-            height={21}
-          />
-          <p className="font-medium leading-[21px] text-[16px] mt-[15px]">
-            Connect Wallet
-          </p>
-        </div>
+        <WalletButton />
       </header>
 
       <div className=" mt-[60px] mx-[105px]">
