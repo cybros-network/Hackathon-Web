@@ -8,7 +8,42 @@ import { AIGCCard, WalletButton } from "@/components";
 import { AIGCCardProps } from "@/types";
 import Image from "next/image";
 
-function AigcPage() {
+import { usePrepareContractWrite, useContractWrite, useWaitForTransaction } from "wagmi";
+import { parseEther } from "viem";
+import { useDebounce } from "@/utils/useDebounce";
+
+export default function AIGCPage() {
+  const [prompt, setPrompt] = React.useState("");
+  const debounedPrompt = useDebounce(prompt, 500);
+
+  const { config } = usePrepareContractWrite({
+    address: "0xa1a7ABD86d2AD059d02EB9b33A9FE29fAa49fFC9",
+    functionName: "requestSimple",
+    value: parseEther("0.02"),
+    args: [debounedPrompt],
+    abi: [
+      {
+        inputs: [
+          {
+            "internalType": "string",
+            "name": "_prompt",
+            "type": "string"
+          }
+        ],
+        name: "requestSimple",
+        outputs: [],
+        stateMutability: "payable",
+        type: "function"
+      },
+    ]
+  });
+
+  const { data, write } = useContractWrite(config);
+
+  const { isLoading, isSuccess } = useWaitForTransaction({
+    hash: data?.hash,
+  });
+
   return (
     <div className="text-black">
       <header className="flex flex-row justify-between mt-[51px] ml-[42px] mr-[54px] h-[59px] text-cb-value">
@@ -23,6 +58,13 @@ function AigcPage() {
         <WalletButton />
       </header>
       <div className="flex flex-col items-center">
+        {isLoading && <div className="text-[40px]">
+          Loading!
+        </div>
+        }
+        {isSuccess && <div className="text-[40px]">
+          Successfully! hash: ${data?.hash}
+        </div>}
         <div className="w-[1346px]">
           <div className="flex flex-col justify-start gap-[6px] mt-[42px] h-[142px] text-cb-value text-[14px] leading-[17px] bg-white/[0.72] shadow-cb rounded-15">
             <p className="text-[16px] leading-[19px] mx-6 mt-[30px]">
@@ -43,7 +85,6 @@ function AigcPage() {
               </p>
             </div>
           </div>
-
           <div className="flex flex-col mt-[21px] gap-[18px] bg-white/[0.72] shadow-cb rounded-15">
             <div className="flex justify-between items-start ml-[39px] mr-[42px] mt-[27px]">
               <div className="text-[21px] font-medium leading-[25.41px]">
@@ -59,9 +100,14 @@ function AigcPage() {
               <textarea
                 className="mt-[18px] mb-[8px]  mx-6 w-full border-none outline-none shadow-none text-cb-normal bg-[#F1F1F1] leading-21 font-normal"
                 placeholder="Prompt goes here..."
+                value={prompt}
+                onChange={(e) => setPrompt(e.target.value)}
               ></textarea>
             </div>
-            <button className="mx-[33px] mb-[24px] shadow-entrance-aigc shadow-cb text-entrance-aigc font-medium leading-[21px] rounded-15 bg-white/[0.72] text-[16px] h-[45px] w-[119px]">
+            <button className="mx-[33px] mb-[24px] shadow-entrance-aigc shadow-cb text-entrance-aigc font-medium leading-[21px] rounded-15 bg-white/[0.72] text-[16px] h-[45px] w-[119px]"
+              onClick={() => {
+                write?.();
+              }}>
               Generate
             </button>
           </div>
@@ -88,5 +134,3 @@ function AigcPage() {
     </div >
   );
 }
-
-export default AigcPage;
