@@ -5,10 +5,10 @@ import { sleep } from "https://deno.land/x/sleep/mod.ts";
 const POOL_ID = 102
 const POOL_IMPL_ID = 1
 
-const KEY_QUEUED_SIZE = ["QUEUED_SIZE"];
-const KEY_PROCESSED_HEIGHT = ["PROCESSED_HEIGHT"];
-const KEY_PREFIX_JOB = ["JOB"];
-const KEY_PREFIX_JOB_LIKE_COUNT = ["JOB_LIKE_COUNT"];
+export const KEY_QUEUE_SIZE = ["QUEUE_SIZE"];
+export const KEY_PROCESSED_HEIGHT = ["PROCESSED_HEIGHT"];
+export const KEY_PREFIX_JOB = ["JOB"];
+export const KEY_PREFIX_JOB_LIKE_COUNT = ["JOB_LIKE_COUNT"];
 
 export default async function indexerLoop(kv, endpoint) {
   await cryptoWaitReady();
@@ -52,7 +52,7 @@ async function indexer(kv, api) {
       targetHeight = (await api.derive.chain.bestNumberFinalized()).toNumber();
       continue;
     }
-    // console.log(`Processed #${processedHeight}, target #${targetHeight}`);
+    console.log(`Processed #${processedHeight}, target #${targetHeight}`);
 
     const curr = processedHeight + 1;
     const batch = kv.atomic();
@@ -150,7 +150,7 @@ async function indexer(kv, api) {
 
     if (targetHeight <= processedHeight) {
       targetHeight = (await api.derive.chain.bestNumberFinalized()).toNumber();
-      await kv.set(KEY_QUEUED_SIZE, (await api.query.offchainComputing.assignableJobs.entries(POOL_ID, POOL_IMPL_ID)).length)
+      await kv.set(KEY_QUEUE_SIZE, (await api.query.offchainComputing.assignableJobs.entries(POOL_ID, POOL_IMPL_ID)).length)
     }
   }
 }
