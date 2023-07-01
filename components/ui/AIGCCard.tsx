@@ -71,19 +71,19 @@ const AIGCCard = ({
     );
   };
 
-  const imgSrc = imageUrl || "/cat-pl.jpg";
+  const imgSrc = imageUrl || "/cat-pl1.jpg";
   const bgColor = statusBGColor(status);
 
   return (
-    <div className="shadow-cb rounded-15" style={{ backgroundColor: bgColor }}>
+    <div className="shadow-cb rounded-15 text-cb-normal h-[545px] w-[314px]" style={{ backgroundColor: bgColor }}>
       <div className="flex flex-col mx-[18px] my-[19px] gap-2">
-        <div className="flex justify-between leading-21 text-[16px] font-medium">
+        <div className="flex justify-between leading-21 text-[14px] font-medium">
           <p>#{id}</p>
           <p>Status: {status}</p>
         </div>
-        <div className="w-[284px] h-[284px] bg-[#E1E1E1] shadow-cb rounded-12 relative">
+        <div className="w-[284px] h-[284px] relative">
           <Image
-            className="h-full w-full aspect-square"
+            className="h-full w-full aspect-square rounded-12"
             src={imgSrc}
             alt=""
             style={{ objectFit: "fill" }}
@@ -100,6 +100,7 @@ const AIGCCard = ({
               </div>
             </div>
           )}
+          <div className="absolute h-full w-full z-10 shadow-cb rounded-12 top-0 left-0"></div>
         </div>
         <div className="flex flex-col mt-1 gap-[6px]">
           <Infobuilder title="Owner" info={owner} />
