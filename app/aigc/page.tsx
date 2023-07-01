@@ -2,8 +2,6 @@
 
 import React from "react";
 import {
-  GITHUB_URL,
-  ON_POLKADOT_URL,
   demoAIGCCardsCollection,
   dm_mono_font,
 } from "@/constants";
