@@ -1,7 +1,7 @@
 import Image from "next/image";
-import { KeynoteButton, IndexEntranceCard } from "@/components";
+import { KeynoteButton, IndexEntrace } from "@/components";
 import React from "react";
-import { DC_URL, GITHUB_URL } from "@/constants";
+import { DC_URL, GITHUB_URL, entranceConfig } from "@/constants";
 
 export default function Home() {
   return (
@@ -34,11 +34,12 @@ Generate NFT arts with distributed AI compute power on Cybros and mint them on E
         </div>
         <div className="-mx-[3px] my-[30px]">
           <div className="flex flex-col justify-start gap-[21px]">
-            <IndexEntranceCard type="aigc" />
+            <IndexEntrace {...entranceConfig.main} />
+
             <div className="flex flex-row justify-start gap-[18px]">
-              <IndexEntranceCard type="github" />
-              <IndexEntranceCard type="discord" />
-              <IndexEntranceCard type="testnet" />
+              {entranceConfig.subs.map((item) => { 
+                return (<IndexEntrace key={item.title} {...item} />);
+              })}
             </div>
           </div>
         </div>

@@ -8,7 +8,6 @@ const AIGCCard = ({
   id,
   imageUrl,
   status,
-  meta,
   owner,
   requestHash,
   fancied,
@@ -17,18 +16,18 @@ const AIGCCard = ({
     status: "Minted" | "Generated" | "Pending" | "Failed" | "Generating"
   ) => {
     switch (status) {
-      case "Minted":
-        return "#00983D0F";
-      case "Generated":
-        return "#0083FD0F";
-      case "Pending":
-        return "#FF6F2D0F";
-      case "Failed":
-        return "#0000000F";
-      case "Generating":
-        return "#FB2DFF0F";
-      default:
-        new Error(`未知的状态: ${status}`);
+    case "Minted":
+      return "#00983D0F";
+    case "Generated":
+      return "#0083FD0F";
+    case "Pending":
+      return "#FF6F2D0F";
+    case "Failed":
+      return "#0000000F";
+    case "Generating":
+      return "#FB2DFF0F";
+    default:
+      new Error(`未知的状态: ${status}`);
     }
   };
 
