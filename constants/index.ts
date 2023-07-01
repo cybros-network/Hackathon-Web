@@ -9,6 +9,7 @@ export const GITHUB_URL = "https://github.com/";
 export const DC_URL = "https://discord.com/";
 export const FAUCET_URL = "/";
 export const ON_POLKADOT_URL = "/";
+export const AIGC_ADDRESS = "0xa1a7ABD86d2AD059d02EB9b33A9FE29fAa49fFC9";
 
 export const dm_mono_font = DM_Mono({
   weight: "300",

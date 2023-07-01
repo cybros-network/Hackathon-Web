@@ -2,7 +2,7 @@ import "app/globals.css";
 import { Inter } from "next/font/google";
 import React from "react";
 import StyledComponentsRegistry from "@/app/registry";
-
+import { APPProvider } from "@/Provider/APPProvider";
 const inter = Inter({ subsets: ["latin"] });
 
 export const metadata = {
@@ -18,7 +18,9 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body className={inter.className}>
-        <StyledComponentsRegistry>{children}</StyledComponentsRegistry>
+        <APPProvider>
+          <StyledComponentsRegistry>{children}</StyledComponentsRegistry>
+        </APPProvider>
       </body>
     </html>
   );
