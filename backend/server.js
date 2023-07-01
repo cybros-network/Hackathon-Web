@@ -1,5 +1,5 @@
 import { Application, Router, Status } from "https://deno.land/x/oak/mod.ts";
-import { KEY_PREFIX_JOB, KEY_PREFIX_JOB_LIKE_COUNT, KEY_PROCESSED_HEIGHT, KEY_QUEUE_SIZE } from "./indexer.js";
+import { KEY_LATEST_JOB, KEY_PREFIX_JOB, KEY_PREFIX_JOB_LIKE_COUNT, KEY_PROCESSED_HEIGHT, KEY_QUEUE_SIZE } from "./indexer.js";
 
 export default async function server(kv, port) {
   const app = new Application();
