@@ -7,6 +7,7 @@ const POOL_IMPL_ID = 1
 
 export const KEY_QUEUE_SIZE = ["QUEUE_SIZE"];
 export const KEY_PROCESSED_HEIGHT = ["PROCESSED_HEIGHT"];
+export const KEY_LATEST_JOB = ["LATEST_JOB"];
 export const KEY_PREFIX_JOB = ["JOB"];
 export const KEY_PREFIX_JOB_LIKE_COUNT = ["JOB_LIKE_COUNT"];
 
@@ -144,6 +145,8 @@ async function indexer(kv, api) {
       batch.set([...KEY_PREFIX_JOB, v.jobId], v)
     }
 
+    const nextId = (await apiAt.query.offchainComputing.nextJobId(POOL_ID)).toJSON()
+    batch.set(KEY_LATEST_JOB, typeof nextId === 'number' ? nextId - 1 : 0)
     batch.set(KEY_PROCESSED_HEIGHT, curr);
     await batch.commit();
     processedHeight = curr;

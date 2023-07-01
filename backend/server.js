@@ -6,10 +6,11 @@ export default async function server(kv, port) {
   const router = new Router();
 
   router.get("/status", async (ctx, next) => {
-    const q = await kv.getMany([KEY_PROCESSED_HEIGHT, KEY_QUEUE_SIZE])
+    const q = await kv.getMany([KEY_PROCESSED_HEIGHT, KEY_QUEUE_SIZE, KEY_LATEST_JOB])
     ctx.response.body = JSON.stringify({
       height: q[0].value || 0,
-      queueSize: q[1].value || 0
+      queueSize: q[1].value || 0,
+      latestJobId: q[2].value || 0
     });
     await next();
   });
