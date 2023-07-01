@@ -1,5 +1,8 @@
-import { AIGCCardProps } from "@/types";
-import exp from "constants";
+import { 
+  AIGCCardProps,
+  IndexEntranceProps,
+} from "@/types";
+
 import { DM_Mono } from "next/font/google";
 
 export const GITHUB_URL = "https://github.com/";
@@ -11,6 +14,56 @@ export const dm_mono_font = DM_Mono({
   weight: "300",
   subsets: ["latin"],
 });
+
+export const entranceConfig: { main: IndexEntranceProps, subs: IndexEntranceProps[] } = {
+  main: {
+    primaryColor: "#A43737",
+    borderColor: "shadow-entrance-aigc",
+    titleDirection: "row",
+    title: "AI NFT Render Flow Demo",
+    description: "Generate ERC-721 NFTs with distributed AI compute power and share on both Web2 and Web3 social media.",
+    goLink: "/aigc",
+    iconURL: "/entran-aigc.svg",
+    width: 646
+  },
+  subs: [
+    {
+      primaryColor: "#3C3C3C",
+      borderColor: "shadow-entrance-github",
+      titleDirection: "col",
+      title: "Github",
+      description: "Check us out on Github.",
+      goLink: GITHUB_URL,
+      iconURL: "/entran-github.svg",
+      width: 314
+    },
+    {
+      primaryColor: "#374FA6",
+      borderColor: "shadow-entrance-discord",
+      titleDirection: "col",
+      title: "Discord",
+      description: "Join our Discord server!",
+      goLink: DC_URL,
+      iconURL: "/entran-discord.svg",
+      width: 314
+    },
+    {
+      primaryColor: "#A45E37",
+      borderColor: "shadow-entrance-testnet",
+      titleDirection: "col",
+      title: "Cybros on Polkadot.js",
+      description: "Play directly with Cybros testnet.",
+      goLink: GITHUB_URL,
+      iconURL: "/entran-testnet.svg",
+      width: 314,
+      addtion: {
+        className: "flex flex-row justify-center items-center rounded-15 w-[101px] shadow-cb shadow-[#A45E37] bg-white text-[16px] font-medium leading-21 text-entrance-testnet",
+        title: "Faucet",
+        link: FAUCET_URL
+      }
+    }
+  ]
+};
 
 export const demoAIGCCardsCollection: AIGCCardProps[] = [
   {
