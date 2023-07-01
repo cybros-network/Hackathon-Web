@@ -19,5 +19,6 @@
     "quotes": ["error", "double"],
     "semi": ["error", "always"]
   },
-  "root": true
+  "root": true,
+  "ignorePatterns": ["**/backend/*.js"]
 }
