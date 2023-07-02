@@ -5,7 +5,7 @@ const nextConfig = {
     remotePatterns: [
       {
         protocol: "https",
-        hostname: "arweave.net"
+        hostname: "arweave.net",
       },
     ],
   },
@@ -16,5 +16,5 @@ const nextConfig = {
     ignoreDuringBuilds: process.env.CI === "false",
   },
 };
-https://arweave.net/jmHQQsTFTggmP6UjXyvYrfr62w7XtKZG3k0ZRZggnFI
+
 module.exports = nextConfig;

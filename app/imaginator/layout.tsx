@@ -1,12 +1,15 @@
 import React from "react";
+import { AppWrapper } from "@/utils/AppWrapper";
 
-function AIGClayout({
-  children,
-}: {
-    children: React.ReactNode;
-  }) {
+export const metadata = {
+  title: "The Imaginator Demo",
+  description: "Web3 Job Scheduler connecting everything",
+};
+function AIGClayout({ children }: { children: React.ReactNode }) {
   return (
-    <div>{children}</div>
+    <AppWrapper>
+      <div>{children}</div>
+    </AppWrapper>
   );
 }
 

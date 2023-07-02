@@ -8,6 +8,7 @@ import {
 } from "@/constants";
 import Link from "next/link";
 import { WalletButton } from "@/components";
+import { useRouter } from "next/navigation";
 
 export default function Page({ params }: { params: { id: string } }) {
   interface PlaygroundCardTemplatePayload {

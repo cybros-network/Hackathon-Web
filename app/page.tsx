@@ -26,7 +26,9 @@ export default function Home() {
       </header>
 
       <div className="mx-24 pt-[69px] text-black">
-        <div className="text-[36px] leading-[44px]">What’s Cybros?</div>
+        <div className="text-[36px] leading-[44px]">
+          Web3 Job Scheduler connecting everything
+        </div>
         <div className="whitespace-pre-wrap mr-[136px] mt-[27px] leading-22 text-[15px]">
           {`Generate NFT arts with distributed AI compute power on Cybros and mint them on Ethereum. Generate NFT arts with distributed AI compute power on Cybros and mint them on Ethereum. Generate NFT arts with distributed AI compute power on Cybros and mint them on Ethereum. Generate NFT arts with distributed AI compute power on Cybros and mint them on Ethereum. Generate NFT arts with distributed AI compute power on Cybros and mint them on Ethereum.
 
@@ -37,8 +39,8 @@ Generate NFT arts with distributed AI compute power on Cybros and mint them on E
             <IndexEntrace {...entranceConfig.main} />
 
             <div className="flex flex-row justify-start gap-[18px]">
-              {entranceConfig.subs.map((item) => { 
-                return (<IndexEntrace key={item.title} {...item} />);
+              {entranceConfig.subs.map((item) => {
+                return <IndexEntrace key={item.title} {...item} />;
               })}
             </div>
           </div>
