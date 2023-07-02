@@ -34,7 +34,7 @@ export default function Home() {
 
 Generate NFT arts with distributed AI compute power on Cybros and mint them on Ethereum. Generate NFT arts with distributed AI compute power on Cybros and mint them on Ethereum.`}
         </div>
-        <div className="-mx-[3px] my-[30px]">
+        <div className="-mx-[3px] my-[49px]">
           <div className="flex flex-col justify-start gap-[21px]">
             <IndexEntrace {...entranceConfig.main} />
 
