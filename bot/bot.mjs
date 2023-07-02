@@ -43,7 +43,7 @@ export async function botMain(api, client) {
             JSON.stringify({
               e2e: false,
               data: JSON.stringify({
-                jobId: 2,
+                jobId,
                 likes: c,
               }),
             }),
