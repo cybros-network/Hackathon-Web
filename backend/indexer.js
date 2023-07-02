@@ -111,6 +111,8 @@ async function indexer(kv, api) {
                 result: null,
                 createdAt: ts,
                 updatedAt: Date.now(),
+                depositor: data.depositor,
+                beneficiary: data.beneficiary
               };
               console.log(`Job #${data.jobId} created in block #${curr}`);
               break;
