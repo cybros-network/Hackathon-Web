@@ -93,15 +93,14 @@ async function indexer(kv, api) {
 
     for (const e of events) {
       if (e.event.section !== "offchainComputing") continue;
-      switch (e.event.data?.poolId) {
+      let job;
+      const data = e.event.data
+      switch (data?.poolId) {
         case STR_POOL_ID_GEN:
-          if (e.event.data?.poolId !== POOL_ID) continue;
-          let job;
-          const data = e.event.data;
           switch (e.event.method) {
             case "JobCreated":
               jobCache[data.jobId] = {
-                status: "pending",
+                status: "Pending",
                 createdIn: curr,
                 jobId: data.jobId,
                 poolId: data.poolId,
@@ -120,7 +119,7 @@ async function indexer(kv, api) {
               job = await tryGetJob(data.jobId);
               jobCache[data.jobId] = {
                 ...job,
-                status: "generating",
+                status: "Processing",
                 updatedAt: Date.now(),
                 assignment: {
                   assignee: data.assignee,
@@ -132,14 +131,14 @@ async function indexer(kv, api) {
                 `Job #${data.jobId} assigned to ${data.assignee} in block #${curr}`
               );
               break;
-            case "JobStatusUpdated":
-              // currently ignored
-              break;
+            // case "JobStatusUpdated":
+            // currently ignored
+            // break;
             case "JobResultUpdated":
               job = await tryGetJob(data.jobId);
               jobCache[data.jobId] = {
                 ...job,
-                status: "done",
+                status: "Processed",
                 updatedAt: Date.now(),
                 result: {
                   status: data.result,
@@ -153,9 +152,21 @@ async function indexer(kv, api) {
             default:
               break;
           }
-
           break;
         case STR_POOL_ID_ECHO:
+          switch (e.event.method) {
+            case "JobResultUpdated":
+              try {
+                const output = JSON.parse(data.output)
+                console.log(`LikeCounter Job #${data.jobId}:`, output)
+                batch.set([...KEY_PREFIX_JOB_LIKE_COUNT, `${output.jobId}`], parseInt(output.likes) || 0)
+              } catch (error) {
+                console.log(`LikeCounter Job #${data.jobId} failed:`, e);
+              }
+              break;
+            default:
+              break;
+          }
           break;
         default:
           break;
