@@ -23,7 +23,7 @@ export const entranceConfig: { main: IndexEntranceProps, subs: IndexEntranceProp
     titleDirection: "row",
     title: "AI NFT Render Flow Demo",
     description: "Generate ERC-721 NFTs with distributed AI compute power and share on both Web2 and Web3 social media.",
-    goLink: "/aigc",
+    goLink: "/imaginator",
     iconURL: "/entran-aigc.svg",
     width: 646
   },

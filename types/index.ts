@@ -25,3 +25,9 @@ export interface AIGCCardProps {
     requestHash: string;
     fancied?: number
 }
+
+export interface AIGCStatus {
+    height: number
+    queueSize: number
+    latestJobId: number
+}
