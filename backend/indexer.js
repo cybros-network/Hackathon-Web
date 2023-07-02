@@ -65,7 +65,6 @@ async function indexer(kv, api) {
     console.log(`Processed #${processedHeight}, target #${targetHeight}`);
 
     const curr = processedHeight + 1;
-    const batch = kv.atomic();
     const jobCache = {};
     const getJob = async (id) => {
       if (jobCache[id]) {
@@ -159,7 +158,7 @@ async function indexer(kv, api) {
               try {
                 const output = JSON.parse(data.output)
                 console.log(`LikeCounter Job #${data.jobId}:`, output)
-                batch.set([...KEY_PREFIX_JOB_LIKE_COUNT, `${output.jobId}`], parseInt(output.likes) || 0)
+                await kv.set([...KEY_PREFIX_JOB_LIKE_COUNT, `${output.jobId}`], parseInt(output.likes) || 0)
               } catch (error) {
                 console.log(`LikeCounter Job #${data.jobId} failed:`, e);
               }
@@ -174,15 +173,14 @@ async function indexer(kv, api) {
     }
 
     for (const v of Object.values(jobCache)) {
-      batch.set([...KEY_PREFIX_JOB, v.jobId], v);
+      await kv.set([...KEY_PREFIX_JOB, v.jobId], v);
     }
 
     const nextId = (
       await apiAt.query.offchainComputing.nextJobId(POOL_ID)
     ).toJSON();
-    batch.set(KEY_LATEST_JOB, typeof nextId === "number" ? nextId - 1 : 0);
-    batch.set(KEY_PROCESSED_HEIGHT, curr);
-    await batch.commit();
+    await kv.set(KEY_LATEST_JOB, typeof nextId === "number" ? nextId - 1 : 0);
+    await kv.set(KEY_PROCESSED_HEIGHT, curr);
     processedHeight = curr;
 
     if (targetHeight <= processedHeight) {
