@@ -1,9 +1,16 @@
-import { ApiPromise, Keyring, WsProvider } from "https://deno.land/x/polkadot/api/mod.ts";
+import {
+  ApiPromise,
+  Keyring,
+  WsProvider,
+} from "https://deno.land/x/polkadot/api/mod.ts";
 import { cryptoWaitReady } from "https://deno.land/x/polkadot/util-crypto/mod.ts";
 import { sleep } from "https://deno.land/x/sleep/mod.ts";
 
 const POOL_ID = 102;
 const POOL_IMPL_ID = 1;
+
+const STR_POOL_ID_GEN = "102";
+const STR_POOL_ID_ECHO = "101";
 
 export const KEY_QUEUE_SIZE = ["QUEUE_SIZE"];
 export const KEY_PROCESSED_HEIGHT = ["PROCESSED_HEIGHT"];
@@ -35,10 +42,12 @@ function indexerInit(kv, endpoint) {
       console.error(e);
       reject(e);
     });
-    indexer(kv, api).then(() => resolve()).catch((e) => {
-      api.disconnect();
-      reject(e);
-    });
+    indexer(kv, api)
+      .then(() => resolve())
+      .catch((e) => {
+        api.disconnect();
+        reject(e);
+      });
   });
 }
 
@@ -48,7 +57,7 @@ async function indexer(kv, api) {
   const qProcessedHeight = await kv.get(KEY_PROCESSED_HEIGHT);
   let processedHeight = qProcessedHeight.value || 0;
   while (true) {
-    if (targetHeight <= processedHeight) {
+    if (targetHeight < processedHeight) {
       await sleep(1);
       targetHeight = (await api.derive.chain.bestNumberFinalized()).toNumber();
       continue;
@@ -84,57 +93,69 @@ async function indexer(kv, api) {
 
     for (const e of events) {
       if (e.event.section !== "offchainComputing") continue;
-      let job;
-      const data = e.event.data;
-      switch (e.event.method) {
-        case "JobCreated":
-          jobCache[data.jobId] = {
-            status: "pending",
-            createdIn: curr,
-            jobId: data.jobId,
-            poolId: data.poolId,
-            policyId: data.policyId,
-            owner: data.owner,
-            implSpecVersion: data.implSpecVersion,
-            input: data.input,
-            assignment: null,
-            result: null,
-            createdAt: ts,
-            updatedAt: Date.now(),
-          };
-          console.log(`Job #${data.jobId} created in block #${curr}`);
+      switch (e.event.data?.poolId) {
+        case STR_POOL_ID_GEN:
+          if (e.event.data?.poolId !== POOL_ID) continue;
+          let job;
+          const data = e.event.data;
+          switch (e.event.method) {
+            case "JobCreated":
+              jobCache[data.jobId] = {
+                status: "pending",
+                createdIn: curr,
+                jobId: data.jobId,
+                poolId: data.poolId,
+                policyId: data.policyId,
+                owner: data.owner,
+                implSpecVersion: data.implSpecVersion,
+                input: data.input,
+                assignment: null,
+                result: null,
+                createdAt: ts,
+                updatedAt: Date.now(),
+              };
+              console.log(`Job #${data.jobId} created in block #${curr}`);
+              break;
+            case "JobAssigned":
+              job = await tryGetJob(data.jobId);
+              jobCache[data.jobId] = {
+                ...job,
+                status: "generating",
+                updatedAt: Date.now(),
+                assignment: {
+                  assignee: data.assignee,
+                  createdIn: curr,
+                  createdAt: ts,
+                },
+              };
+              console.log(
+                `Job #${data.jobId} assigned to ${data.assignee} in block #${curr}`
+              );
+              break;
+            case "JobStatusUpdated":
+              // currently ignored
+              break;
+            case "JobResultUpdated":
+              job = await tryGetJob(data.jobId);
+              jobCache[data.jobId] = {
+                ...job,
+                status: "done",
+                updatedAt: Date.now(),
+                result: {
+                  status: data.result,
+                  output: data.output,
+                  createdIn: curr,
+                  createdAt: ts,
+                },
+              };
+              console.log(`Job #${data.jobId} finished in block #${curr}`);
+              break;
+            default:
+              break;
+          }
+
           break;
-        case "JobAssigned":
-          job = await tryGetJob(data.jobId);
-          jobCache[data.jobId] = {
-            ...job,
-            status: "generating",
-            updatedAt: Date.now(),
-            assignment: {
-              assignee: data.assignee,
-              createdIn: curr,
-              createdAt: ts,
-            },
-          };
-          console.log(`Job #${data.jobId} assigned to ${data.assignee} in block #${curr}`);
-          break;
-        case "JobStatusUpdated":
-          // currently ignored
-          break;
-        case "JobResultUpdated":
-          job = await tryGetJob(data.jobId);
-          jobCache[data.jobId] = {
-            ...job,
-            status: "done",
-            updatedAt: Date.now(),
-            result: {
-              status: data.result,
-              output: data.output,
-              createdIn: curr,
-              createdAt: ts,
-            },
-          };
-          console.log(`Job #${data.jobId} finished in block #${curr}`);
+        case STR_POOL_ID_ECHO:
           break;
         default:
           break;
@@ -145,7 +166,9 @@ async function indexer(kv, api) {
       batch.set([...KEY_PREFIX_JOB, v.jobId], v);
     }
 
-    const nextId = (await apiAt.query.offchainComputing.nextJobId(POOL_ID)).toJSON();
+    const nextId = (
+      await apiAt.query.offchainComputing.nextJobId(POOL_ID)
+    ).toJSON();
     batch.set(KEY_LATEST_JOB, typeof nextId === "number" ? nextId - 1 : 0);
     batch.set(KEY_PROCESSED_HEIGHT, curr);
     await batch.commit();
@@ -155,7 +178,12 @@ async function indexer(kv, api) {
       targetHeight = (await api.derive.chain.bestNumberFinalized()).toNumber();
       await kv.set(
         KEY_QUEUE_SIZE,
-        (await api.query.offchainComputing.assignableJobs.entries(POOL_ID, POOL_IMPL_ID)).length,
+        (
+          await api.query.offchainComputing.assignableJobs.entries(
+            POOL_ID,
+            POOL_IMPL_ID
+          )
+        ).length
       );
     }
   }
