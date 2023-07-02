@@ -15,8 +15,6 @@ export default function Page({ params }: { params: { id: string } }) {
     info: string;
   }
 
-  console.log(params.id);
-
   const PlaygroundInfo = ({ title, info }: PlaygroundCardTemplatePayload) => {
     return (
       <div className="flex flex-col justify-start gap-[3px]">
@@ -29,6 +27,7 @@ export default function Page({ params }: { params: { id: string } }) {
       </div>
     );
   };
+
   return (
     <div className=" text-black">
       <header className="flex flex-row justify-between mt-[51px] ml-[42px] mr-[54px] h-[59px] text-cb-value">
@@ -42,7 +41,7 @@ export default function Page({ params }: { params: { id: string } }) {
         </div>
         <div className="flex justify-between gap-9 ml-[72px] mr-auto mt-6 leading-[21px] text-[18px]">
           <Link href={FAUCET_URL}>Faucet</Link>
-          <Link href="/aigc"> NFT Renderer</Link>
+          <Link href="/imaginator"> NFT Renderer</Link>
           <Link href="/">Push</Link>
           <Link href={GITHUB_URL}>Github</Link>
           <Link href={ON_POLKADOT_URL}>Polkadot.js</Link>

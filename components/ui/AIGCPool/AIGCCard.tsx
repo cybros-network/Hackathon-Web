@@ -84,9 +84,10 @@ const AIGCCard = ({
         <div className="w-[284px] h-[284px] relative">
           <Image
             className="h-full w-full aspect-square rounded-12"
-            src={imgSrc}
+            src={"https://arweave.net/jmHQQsTFTggmP6UjXyvYrfr62w7XtKZG3k0ZRZggnFI"}
             alt=""
             style={{ objectFit: "fill" }}
+            priority={true}
             width={40}
             height={40}
           ></Image>
@@ -105,7 +106,7 @@ const AIGCCard = ({
         <div className="flex flex-col mt-1 gap-[6px]">
           <Infobuilder title="Owner" info={owner} />
           <Infobuilder title="Request Tx Hash" info={requestHash} />
-          <ActionArea status={status} url={`/aigc/${id}`} />
+          <ActionArea status={status} url={`/imaginator/${id}`} />
         </div>
       </div>
     </div>
