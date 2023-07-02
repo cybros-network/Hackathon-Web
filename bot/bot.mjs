@@ -40,6 +40,7 @@ export async function botMain(api, client) {
             POOL_ID_LIKE,
             1,
             1,
+            false,
             JSON.stringify({
               e2e: false,
               data: JSON.stringify({
