@@ -98,6 +98,7 @@ async function indexer(kv, api) {
         case STR_POOL_ID_GEN:
           switch (e.event.method) {
             case "JobCreated":
+              console.log(data)
               jobCache[data.jobId] = {
                 status: "Pending",
                 createdIn: curr,
@@ -157,8 +158,10 @@ async function indexer(kv, api) {
             case "JobResultUpdated":
               try {
                 const output = JSON.parse(data.output)
-                console.log(`LikeCounter Job #${data.jobId}:`, output)
-                await kv.set([...KEY_PREFIX_JOB_LIKE_COUNT, `${output.jobId}`], parseInt(output.likes) || 0)
+                if (output.jobId) {
+                  console.log(`LikeCounter Job #${data.jobId}:`, output)
+                  await kv.set([...KEY_PREFIX_JOB_LIKE_COUNT, `${output.jobId}`], parseInt(output.likes) || 0)
+                }
               } catch (error) {
                 console.log(`LikeCounter Job #${data.jobId} failed:`, e);
               }
