@@ -26,7 +26,7 @@ const InfoLine = ({ title, info }) => {
         {title}
       </p>
       <div className={dm_mono_font.className}>
-        <p className="text-[13px] text-cb-value line-clamp-2 h-[34px] leading-[16.93px]">
+        <p className="text-[13px] text-cb-value line-clamp-2 h-[34px] leading-[17px] break-all">
           {info}
         </p>
       </div>
@@ -94,7 +94,7 @@ function ArtCardWrapper({ jobId }) {
           metadata,
         });
         if (!loadingFinished) {
-          setTimeout(update, 2000);
+          timeout = setTimeout(update, 2000);
         }
       }
     };
@@ -179,9 +179,9 @@ function ArtCard({ jobId, job, successResult }) {
           <p>#{jobId}</p>
           <p>Status: {status}</p>
         </div>
-        <div className="w-[284px] h-[284px] relative">
+        <div className="w-[284px] h-[284px] -mx-[3px] relative">
           <Image
-            className="h-full w-full aspect-square rounded-12"
+            className="h-full w-full aspect-square rounded-12 block shadow-cb"
             src={successResult.data?.image}
             alt=""
             style={{ objectFit: "fill" }}
