@@ -139,20 +139,19 @@ function PromptInput() {
               style={{ borderRadius: "44px" }}
             />
             <p className=" text-black text-[34px] leading-[40px] text-center font-bold">
-              Your contract is being
+              Your request is being
               <br />
-              deployed
+              processed
             </p>
             <p className="text-[14px] leading-[25px] font-medium ext-cb-normal mt-[22px] text-center mx-[20px]">
-              Your new contract is being deployed. It may take some time
+              It may take some time
               <br />
-              for the transaction to be processed and the collection to be
-              <br />
-              reflected on OpenSea.
+              for the transaction to be processed and finalized on the chain.
             </p>
             <a
               href={`${"https://polygonscan.com/tx/"}${currentTxHash}`}
               className="text-[14px] text-blue-500 text-center my-[28px] font-medium"
+              target="_blank"
             >
               View on Polygonscan
             </a>

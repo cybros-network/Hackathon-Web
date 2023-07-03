@@ -208,7 +208,7 @@ export const entranceConfig: {
       titleDirection: "col",
       title: "Cybros on Polkadot.js",
       description: "Play directly with Cybros testnet.",
-      goLink: GITHUB_URL,
+      goLink: ON_POLKADOT_URL,
       iconURL: "/entran-testnet.svg",
       width: 314,
       addtion: {

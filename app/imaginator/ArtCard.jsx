@@ -47,6 +47,7 @@ const ActionArea = ({ job, minted, setMinted, status, url }) => {
       )}
       <Link
         href={url}
+        target="_blank"
         className="flex cb-border-h bg-white rounded-15 w-full justify-center items-center "
       >
         <p className="text-center">Metadata</p>
@@ -189,25 +190,29 @@ function ArtCard({ jobId, job, successResult }) {
             backgroundSize: "auto",
           }}
         >
-          <div
-            className="w-full h-full absolute top-0 left-0  shadow-cb rounded-15"
-            style={{
-              ...(successResult.data?.image && {
-                backgroundImage: `url(${successResult.data?.image})`,
-                backgroundRepeat: "no-repeat",
-                backgroundPosition: "center",
-                backgroundSize: "contain",
-              }),
-            }}
-          ></div>
-          <div className="absolute right-[6px] bottom-[9px] rounded-15 bg-white text-[#FF2828] font-medium leading-21">
-            <div className="flex justify-between gap-[7px] mx-3 my-1">
-              <p className="text-[14px] font-normal leading-21">❤️</p>
-              <p className="text-[14px] text-[#FF2828] font-medium leading-21">
-                {job.likeCount || 0}
-              </p>
+          {successResult.data?.image && (
+            <div
+              className="w-full h-full absolute top-0 left-0  shadow-cb rounded-15"
+              style={{
+                ...(successResult.data?.image && {
+                  backgroundImage: `url(${successResult.data?.image})`,
+                  backgroundRepeat: "no-repeat",
+                  backgroundPosition: "center",
+                  backgroundSize: "contain",
+                }),
+              }}
+            />
+          )}
+          {successResult.data?.image && (
+            <div className="absolute right-[6px] bottom-[9px] rounded-15 bg-white text-[#FF2828] font-medium leading-21">
+              <div className="flex justify-between gap-[7px] mx-3 my-1">
+                <p className="text-[14px] font-normal leading-21">❤️</p>
+                <p className="text-[14px] text-[#FF2828] font-medium leading-21">
+                  {job.likeCount || 0}
+                </p>
+              </div>
             </div>
-          </div>
+          )}
         </div>
         <div className="flex flex-col mt-1 gap-[6px]">
           <InfoLine title="Beneficiary" info={job.beneficiary} />
