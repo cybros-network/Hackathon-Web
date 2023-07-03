@@ -41,9 +41,9 @@ export default function Page({ params }: { params: { id: string } }) {
   const PlaygroundInfo = ({ title, info }: PlaygroundCardTemplatePayload) => {
     return (
       <div className="flex flex-col justify-start gap-[3px]">
-        <p className="font-medium leading-21 text-cb-normal w-full">{title}</p>
+        <p className="font-medium leading-21 text-cb-normal ">{title}</p>
         <div className={dm_mono_font.className}>
-          <p className="text-[13px] leading-[17px] text-cb-value w-full line-clamp-2">
+          <p className="text-[13px] leading-[17px] text-cb-value line-clamp-2">
             {info}
           </p>
         </div>
@@ -54,10 +54,10 @@ export default function Page({ params }: { params: { id: string } }) {
   const BlockInfo = ({ title, block, info }: PlaygroundCardTemplatePayload & { block: number }) => {
     return (
       <div className="flex flex-col justify-start gap-[3px]">
-        <p className="font-medium leading-21 text-cb-normal w-full">{title}</p>
+        <p className="font-medium leading-21 text-cb-normal">{title}</p>
         <Link href={ ON_POLKADOT_QUERY_URL + block.toString() }>
           <div className={`${dm_mono_font.className}  text-[13px] leading-[17px] text-cb-value`}>
-            <p className=" w-full line-clamp-2">
+            <p className="   line-clamp-2">
               {`#${block}`}
               <br />
               {utcDateFormmer(info)}
@@ -71,9 +71,9 @@ export default function Page({ params }: { params: { id: string } }) {
   const ProcessedInfo = (info: string) => {
     return (
       <div className="flex flex-col justify-start gap-[3px]">
-        <p className="font-medium leading-21 text-cb-normal w-full">Output</p>
+        <p className="font-medium leading-21 text-cb-normal">Output</p>
         <div className={dm_mono_font.className}>
-          <pre className="text-[13px] leading-[17px] text-cb-value w-full">
+          <pre className="text-[13px] leading-[17px] text-cb-valuell">
             {info}
           </pre>
         </div>
@@ -197,21 +197,21 @@ export default function Page({ params }: { params: { id: string } }) {
         <WalletButton />
       </header>
       {res.data && (
-        <div>
+        <div className="flex flex-col">
           <div className=" mt-[60px] mx-[105px]">
             <p className="text-4xl font-semibold leading-[44px]">Job #{jobId}</p>
             <p className="text-[17px] font-medium mt-[6px]">in Pool #{res.data.poolId}</p>
           </div>
-          <div className="flex flex-row justify-between items-start mx-[84px] mt-9 gap-[21px]">
-            <div className="shadow-cb rounded-15">
-              <div className="flex flex-col content-start items-start ml-[32px] w-[407px] gap-6 mt-9 mb-[58px]">
+          <div className="flex flex-row items-start mx-[84px] mt-9 gap-[21px]">
+            <div className="shadow-cb rounded-15 w-[407px]">
+              <div className="flex flex-col content-start items-start ml-[32px] gap-6 mt-9 mb-[58px]">
                 <BlockInfo title="Job Created" block={res.data.createdIn} info={res.data.createdAt} />
                 <BlockInfo title="Job Assigned" block={res.data.assignment.createdIn} info={res.data.assignment.createdAt} />
                 <BlockInfo title="Job Processed" block={res.data.result.createdIn} info={res.data.result.createdAt} />
               </div>
             </div>
 
-            <div className="flex content-start items-start shadow-cb rounded-15">
+            <div className="shadow-cb rounded-15 w-full">
               <div className="flex flex-col gap-[18px] my-9 mx-[32px]">
                 <PlaygroundInfo title="Block" info={res.data.createdIn} />
                 <PlaygroundInfo
