@@ -3,6 +3,7 @@ import { AppStatus, RequestAtom } from "@/types";
 import { useEffect } from "react";
 import axios, { AxiosResponse } from "axios";
 import { API_URL } from "@/constants";
+import { useAccount } from "wagmi";
 
 export const appStatusAtom = atom<RequestAtom<AppStatus>>({
   data: null,
@@ -43,3 +44,5 @@ export const useAppStatusUpdater = () => {
     return clearTimeout(timeout);
   }, [set]);
 };
+
+export const currentCybrosAddress = atom<string>("");

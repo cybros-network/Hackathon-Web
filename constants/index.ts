@@ -1,15 +1,163 @@
 import { AIGCCardProps, IndexEntranceProps } from "@/types";
 
 import { DM_Mono } from "next/font/google";
+import { ParseAbi } from "viem";
+import { FormatAbi } from "abitype";
 
 export const GITHUB_URL = "https://github.com/cybros-network";
 export const DC_URL = "https://discord.gg/NXwGRzTnCS";
 export const FAUCET_URL = "https://faucet.cybros.network/";
 export const ON_POLKADOT_URL =
   "https://polkadot.js.org/apps/?rpc=wss%3A%2F%2Fnode-rpc.cybros.network%2F#/explorer";
-export const AIGC_ADDRESS = "0xa1a7ABD86d2AD059d02EB9b33A9FE29fAa49fFC9";
+export const JOB_CONTRACT_ADDRESS =
+  "0x6B77FE5436d4AC1e2b6E4DBAaCA5704b1560C68a";
+export const ALCHEMY_KEY =
+  process.env.NEXT_PUBLIC_ALCHEMY_KEY || "ArM_wvoZ1OKmMayQEMtNJeWLrh8yqUhs";
 
 export const API_URL = "https://demo-api.cybros.network";
+
+export const JOB_CONTRACT_ABI = [
+  {
+    inputs: [],
+    stateMutability: "nonpayable",
+    type: "constructor",
+  },
+  {
+    anonymous: false,
+    inputs: [
+      {
+        indexed: true,
+        internalType: "address",
+        name: "sender",
+        type: "address",
+      },
+      {
+        indexed: false,
+        internalType: "uint256",
+        name: "fee",
+        type: "uint256",
+      },
+      {
+        indexed: false,
+        internalType: "string",
+        name: "input",
+        type: "string",
+      },
+      {
+        indexed: false,
+        internalType: "bytes",
+        name: "publicKey",
+        type: "bytes",
+      },
+      {
+        indexed: false,
+        internalType: "bool",
+        name: "simple",
+        type: "bool",
+      },
+    ],
+    name: "PromptRequested",
+    type: "event",
+  },
+  {
+    inputs: [],
+    name: "minAmount",
+    outputs: [
+      {
+        internalType: "uint256",
+        name: "",
+        type: "uint256",
+      },
+    ],
+    stateMutability: "view",
+    type: "function",
+  },
+  {
+    inputs: [],
+    name: "owner",
+    outputs: [
+      {
+        internalType: "address",
+        name: "",
+        type: "address",
+      },
+    ],
+    stateMutability: "view",
+    type: "function",
+  },
+  {
+    inputs: [
+      {
+        internalType: "string",
+        name: "_input",
+        type: "string",
+      },
+      {
+        internalType: "string",
+        name: "length",
+        type: "string",
+      },
+      {
+        internalType: "uint8",
+        name: "_v",
+        type: "uint8",
+      },
+      {
+        internalType: "bytes32",
+        name: "_r",
+        type: "bytes32",
+      },
+      {
+        internalType: "bytes32",
+        name: "_s",
+        type: "bytes32",
+      },
+      {
+        internalType: "bytes",
+        name: "_publicKey",
+        type: "bytes",
+      },
+    ],
+    name: "request",
+    outputs: [],
+    stateMutability: "payable",
+    type: "function",
+  },
+  {
+    inputs: [
+      {
+        internalType: "string",
+        name: "_prompt",
+        type: "string",
+      },
+    ],
+    name: "requestSimple",
+    outputs: [],
+    stateMutability: "payable",
+    type: "function",
+  },
+  {
+    inputs: [
+      {
+        internalType: "uint256",
+        name: "_minAmount",
+        type: "uint256",
+      },
+    ],
+    name: "setMinAmount",
+    outputs: [],
+    stateMutability: "nonpayable",
+    type: "function",
+  },
+  {
+    inputs: [],
+    name: "withdraw",
+    outputs: [],
+    stateMutability: "nonpayable",
+    type: "function",
+  },
+] as const;
+export type Abi = FormatAbi<typeof JOB_CONTRACT_ABI>;
 
 export const dm_mono_font = DM_Mono({
   weight: "300",
