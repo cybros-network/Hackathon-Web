@@ -42,13 +42,13 @@ const ActionArea = ({ job, minted, setMinted, status, url }) => {
   return (
     <div className="flex flex-row justify-between gap-2 h-[45px] text-[16px] leading-21 font-medium -mx-[3px]">
       {canMint && (
-        <button className="shadow-cb rounded-15 shadow-[#219653] bg-white text-[#219653] w-full">
+        <button className="cb-border-h rounded-15 shadow-[#219653] hover:shadow-[#219653] bg-white text-[#219653] w-full">
           Mint
         </button>
       )}
       <Link
         href={url}
-        className="flex shadow-cb bg-white rounded-15 w-full justify-center items-center"
+        className="flex cb-border-h bg-white rounded-15 w-full justify-center items-center "
       >
         <p className="text-center">Metadata</p>
       </Link>
@@ -145,7 +145,8 @@ function ArtCardWrapper({ jobId }) {
     update().catch(() => {
       // noop
     });
-    return clearTimeout(timeout);  }, [res.data?.result?.status]);
+    return clearTimeout(timeout);
+  }, [res.data?.result?.status]);
 
   return res.data ? (
     <ArtCard job={res.data} jobId={jobId} successResult={successResult} />
@@ -168,14 +169,6 @@ function ArtCard({ jobId, job, successResult }) {
     return BG_COLOR_MAP[status];
   }, [status]);
 
-  const [fetchImageError, setFetchImageError] = useState(false);
-
-  const imageSrc = useMemo(() => {
-    return successResult.data?.image ?? (
-      status === "Error" ? "/ghost.svg" : "/bolt.svg"
-    );
-  }, [fetchImageError]);
-
   return (
     <div
       className="shadow-cb rounded-15 text-cb-normal h-[545px] w-[314px]"
@@ -186,18 +179,28 @@ function ArtCard({ jobId, job, successResult }) {
           <p>#{jobId}</p>
           <p>Status: {status}</p>
         </div>
-        <div className="w-[284px] h-[284px] -mx-[3px] relative">
-          <Image
-            className="h-full w-full aspect-square rounded-12 block shadow-cb"
-            src={ imageSrc }
-            placeholder="fill"
-            blurDataURL="/Spiral.svg"
-            alt=""
-            style={{ objectFit: !successResult.data?.image ? "none" : "fill" }}
-            priority={true}
-            width={ !successResult.data?.image ? 24 : 284}
-            height={ !successResult.data?.image ? 24 : 284}
-          ></Image>
+        <div
+          className="w-[284px] h-[284px] -mx-[3px] relative"
+          style={{
+            backgroundImage: `url(${
+              status === "Error" ? "/ghost.svg" : "/bolt.svg"
+            })`,
+            backgroundRepeat: "no-repeat",
+            backgroundPosition: "center",
+            backgroundSize: "auto",
+          }}
+        >
+          <div
+            className="w-full h-full absolute top-0 left-0  shadow-cb rounded-15"
+            style={{
+              ... (successResult.data?.image && {
+                backgroundImage: `url(${ successResult.data?.image })`,
+                backgroundRepeat: "no-repeat",
+                backgroundPosition: "center",
+                backgroundSize: "contain",
+              }),
+            }}
+          ></div>
           <div className="absolute right-[6px] bottom-[9px] rounded-15 bg-white text-[#FF2828] font-medium leading-21">
             <div className="flex justify-between gap-[7px] mx-3 my-1">
               <p className="text-[14px] font-normal leading-21">❤️</p>
@@ -206,27 +209,24 @@ function ArtCard({ jobId, job, successResult }) {
               </p>
             </div>
           </div>
-          <div className="absolute h-full w-full z-10 shadow-cb rounded-12 top-0 left-0"></div>
-          <div className="flex flex-col mt-1 gap-[6px]">
-            <InfoLine title="Beneficiary" info={job.beneficiary} />
-            <InfoLine
-              title="Tx Block"
-              info={
-                <a
-                  href={`${ON_POLKADOT_QUERY_URL}${job.createdIn}`}
-                >
-                  {job.createdIn}
-                </a>
-              }
-            />
-            <ActionArea
-              setMinted={setMinted}
-              minted={minted}
-              job={job}
-              status={status}
-              url={`/imaginator/${jobId}`}
-            />
-          </div>
+        </div>
+        <div className="flex flex-col mt-1 gap-[6px]">
+          <InfoLine title="Beneficiary" info={job.beneficiary} />
+          <InfoLine
+            title="Tx Block"
+            info={
+              <a href={`${ON_POLKADOT_QUERY_URL}${job.createdIn}`}>
+                {job.createdIn}
+              </a>
+            }
+          />
+          <ActionArea
+            setMinted={setMinted}
+            minted={minted}
+            job={job}
+            status={status}
+            url={`/imaginator/${jobId}`}
+          />
         </div>
       </div>
     </div>
