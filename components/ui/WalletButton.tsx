@@ -73,15 +73,15 @@ const WalletButton = () => {
 
   return (
     <div
-      className="shadow-cb rounded-15 bg-white flex mt-[10px] gap-[13px] h-[49px] items-start"
+      className="cb-border-h rounded-15 bg-white flex mt-[10px] gap-[13px] h-[49px] items-start"
       onClick={
         !isLoading && isConnected
           ? () => {
-              disconnect();
-            }
+            disconnect();
+          }
           : () => {
-              connect({ connector: connectors[0] });
-            }
+            connect({ connector: connectors[0] });
+          }
       }
     >
       <Image

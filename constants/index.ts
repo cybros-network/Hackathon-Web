@@ -1,4 +1,4 @@
-import { AIGCCardProps, IndexEntranceProps } from "@/types";
+import { IndexEntranceProps } from "@/types";
 
 import { DM_Mono } from "next/font/google";
 import { ParseAbi } from "viem";
@@ -13,6 +13,8 @@ export const JOB_CONTRACT_ADDRESS =
   "0x6B77FE5436d4AC1e2b6E4DBAaCA5704b1560C68a";
 export const ALCHEMY_KEY =
   process.env.NEXT_PUBLIC_ALCHEMY_KEY || "ArM_wvoZ1OKmMayQEMtNJeWLrh8yqUhs";
+export const ON_POLKADOT_QUERY_URL =
+  "https://polkadot.js.org/apps/?rpc=wss%3A%2F%2Fnode-rpc.cybros.network%2F#/explorer/query/";
 
 export const API_URL = "https://demo-api.cybros.network";
 
@@ -170,7 +172,7 @@ export const entranceConfig: {
 } = {
   main: {
     primaryColor: "#A43737",
-    borderColor: "shadow-entrance-aigc",
+    borderColor: "shadow-entrance-aigc hover:shadow-entrance-aigc",
     titleDirection: "row",
     title: "The Imaginator Demo",
     description:
@@ -182,7 +184,7 @@ export const entranceConfig: {
   subs: [
     {
       primaryColor: "#3C3C3C",
-      borderColor: "shadow-entrance-github",
+      borderColor: "shadow-entrance-github hover:shadow-entrance-github",
       titleDirection: "col",
       title: "Github",
       description: "Check us out on Github.",
@@ -192,7 +194,7 @@ export const entranceConfig: {
     },
     {
       primaryColor: "#374FA6",
-      borderColor: "shadow-entrance-discord",
+      borderColor: "shadow-entrance-discord hover:shadow-entrance-discord",
       titleDirection: "col",
       title: "Discord",
       description: "Join our Discord server!",
@@ -202,7 +204,7 @@ export const entranceConfig: {
     },
     {
       primaryColor: "#A45E37",
-      borderColor: "shadow-entrance-testnet",
+      borderColor: "shadow-entrance-testnet hover:shadow-entrance-testnet",
       titleDirection: "col",
       title: "Cybros on Polkadot.js",
       description: "Play directly with Cybros testnet.",
@@ -211,45 +213,10 @@ export const entranceConfig: {
       width: 314,
       addtion: {
         className:
-          "flex flex-row justify-center items-center rounded-15 w-[101px] shadow-cb shadow-[#A45E37] bg-white text-[16px] font-medium leading-21 text-entrance-testnet",
+          "flex flex-row justify-center items-center rounded-15 w-[101px] cb-border-h shadow-entrance-testnet hover:shadow-entrance-testnet bg-white text-[16px] font-medium leading-21 text-entrance-testnet",
         title: "Faucet",
         link: FAUCET_URL,
       },
     },
   ],
 };
-
-export const demoAIGCCardsCollection: AIGCCardProps[] = [
-  {
-    id: "1",
-    status: "Minted",
-    owner: "owner 1",
-    requestHash: "request hash 1",
-    fancied: 1,
-  },
-  {
-    id: "2",
-    status: "Generated",
-    owner: "owner 2",
-    requestHash: "request hash 2",
-    fancied: 114514,
-  },
-  {
-    id: "3",
-    status: "Pending",
-    owner: "owner 3",
-    requestHash: "request hash 3",
-  },
-  {
-    id: "4",
-    status: "Failed",
-    owner: "owner 4",
-    requestHash: "request hash 4",
-  },
-  {
-    id: "5",
-    status: "Generating",
-    owner: "owner 5",
-    requestHash: "request hash 5",
-  },
-];

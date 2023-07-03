@@ -15,7 +15,7 @@ export default function ImaginatorPage() {
 
   return (
     <div className="text-black">
-      <header className="flex flex-row justify-between mt-[51px] ml-[42px] mr-[54px] h-[59px] text-cb-value">
+      <header className="flex flex-row justify-between mt-[45px] mx-[48px] h-[59px] text-cb-value">
         <div
           className="flex items-start gap-[21px]"
           onClick={() => router.push("/")}
@@ -29,36 +29,37 @@ export default function ImaginatorPage() {
         </div>
         <WalletButton />
       </header>
-      <div className="flex flex-col items-center">
-        <div className="w-[1346px]">
-          <div className="flex flex-col justify-start gap-[6px] mt-[42px] h-[142px] text-cb-value text-[14px] leading-[17px] bg-white/[0.72] shadow-cb rounded-15">
-            <p className="text-[16px] leading-[19px] mx-6 mt-[30px]">
-              In this demo:
-            </p>
-            <div className="mx-9 flex flex-col justify-start">
-              <p>
-                • Use your Polygon account to generate arts with AI compute
-                power running on Cybros testnet.
-                <br />• All generated arts will be sent to the
-                <a className="text-[#fa2dff]" href={DC_URL} target="_blank">
-                  {" "}
-                  #demo-arts{" "}
-                </a>
-                channel in
-                <a className="text-[#fa2dff]" href={DC_URL} target="_blank">
-                  {" "}
-                  our Discord server
-                </a>
-                , and the ❤️ reaction will be represented on on-chain data of
-                the testnet.
-                <br />• Mint ERC-721 NFT with your generated arts so you can
-                check it out on Opensea.
-              </p>
-            </div>
-          </div>
-          <div className="mt-[21px]">
-            <PromptInput />
-          </div>
+
+      <div className="flex flex-col justify-start gap-[6px] mt-[42px] mx-[84px] text-cb-value text-[14px] leading-[17px] bg-white/[0.72] shadow-cb rounded-15">
+        <p className="text-[16px] leading-[19px] mx-6 mt-[30px]">
+          In this demo:
+        </p>
+        <div className="mx-9 flex flex-col justify-start mb-9">
+          <p>
+            • Use your Polygon account to generate arts with AI compute
+            power running on Cybros testnet.
+            <br />• All generated arts will be sent to the
+            <a className="text-[#fa2dff]" href={DC_URL} target="_blank">
+              {" "}
+              #demo-arts{" "}
+            </a>
+            channel in
+            <a className="text-[#fa2dff]" href={DC_URL} target="_blank">
+              {" "}
+              our Discord server
+            </a>
+            , and the ❤️ reaction will be represented on on-chain data of
+            the testnet.
+            <br />• Mint ERC-721 NFT with your generated arts so you can
+            check it out on Opensea.
+          </p>
+        </div>
+      </div>
+      <div className="mt-[21px] mx-[84px]">
+        <PromptInput />
+      </div>
+      <div className="flex justify-center items-center">
+        <div className="w-[1346px] ">
           <ArtList />
         </div>
       </div>

@@ -1,6 +1,5 @@
 import React, { useEffect, useMemo, useState } from "react";
-import Image from "next/image";
-import { API_URL, dm_mono_font } from "@/constants";
+import { API_URL, dm_mono_font, ON_POLKADOT_QUERY_URL } from "@/constants";
 import Link from "next/link";
 import axios from "axios";
 import { useAtomValue } from "jotai";
@@ -26,7 +25,7 @@ const InfoLine = ({ title, info }) => {
         {title}
       </p>
       <div className={dm_mono_font.className}>
-        <p className="text-[13px] text-cb-value line-clamp-2 h-[34px] leading-[16.93px]">
+        <p className="text-[13px] text-cb-value line-clamp-2 h-[34px] leading-[17px] break-all">
           {info}
         </p>
       </div>
@@ -42,13 +41,13 @@ const ActionArea = ({ job, minted, setMinted, status, url }) => {
   return (
     <div className="flex flex-row justify-between gap-2 h-[45px] text-[16px] leading-21 font-medium -mx-[3px]">
       {canMint && (
-        <button className="shadow-cb rounded-15 shadow-[#219653] bg-white text-[#219653] w-full">
+        <button className="cb-border-h rounded-15 shadow-[#219653] hover:shadow-[#219653] bg-white text-[#219653] w-full">
           Mint
         </button>
       )}
       <Link
         href={url}
-        className="flex shadow-cb bg-white rounded-15 w-full justify-center items-center"
+        className="flex cb-border-h bg-white rounded-15 w-full justify-center items-center "
       >
         <p className="text-center">Metadata</p>
       </Link>
@@ -94,7 +93,7 @@ function ArtCardWrapper({ jobId }) {
           metadata,
         });
         if (!loadingFinished) {
-          setTimeout(update, 2000);
+          timeout = setTimeout(update, 2000);
         }
       }
     };
@@ -137,7 +136,7 @@ function ArtCardWrapper({ jobId }) {
           metadata,
         });
         attempt += 1;
-        if (attempt >= 80 && !data) {
+        if (attempt >= 50 && !data) {
           setTimeout(update, 6000);
         }
       }
@@ -164,11 +163,11 @@ function ArtCard({ jobId, job, successResult }) {
     }
     return job.status;
   }, [minted, job.status, job.result?.status]);
+
   const backgroundColor = useMemo(() => {
     return BG_COLOR_MAP[status];
   }, [status]);
 
-  // todo: show placeholder when no image shown
   return (
     <div
       className="shadow-cb rounded-15 text-cb-normal h-[545px] w-[314px]"
@@ -179,16 +178,28 @@ function ArtCard({ jobId, job, successResult }) {
           <p>#{jobId}</p>
           <p>Status: {status}</p>
         </div>
-        <div className="w-[284px] h-[284px] relative">
-          <Image
-            className="h-full w-full aspect-square rounded-12"
-            src={successResult.data?.image}
-            alt=""
-            style={{ objectFit: "fill" }}
-            priority={true}
-            width={512}
-            height={512}
-          ></Image>
+        <div
+          className="w-[284px] h-[284px] -mx-[3px] relative"
+          style={{
+            backgroundImage: `url(${
+              status === "Error" ? "/ghost.svg" : "/bolt.svg"
+            })`,
+            backgroundRepeat: "no-repeat",
+            backgroundPosition: "center",
+            backgroundSize: "auto",
+          }}
+        >
+          <div
+            className="w-full h-full absolute top-0 left-0  shadow-cb rounded-15"
+            style={{
+              ...(successResult.data?.image && {
+                backgroundImage: `url(${successResult.data?.image})`,
+                backgroundRepeat: "no-repeat",
+                backgroundPosition: "center",
+                backgroundSize: "contain",
+              }),
+            }}
+          ></div>
           <div className="absolute right-[6px] bottom-[9px] rounded-15 bg-white text-[#FF2828] font-medium leading-21">
             <div className="flex justify-between gap-[7px] mx-3 my-1">
               <p className="text-[14px] font-normal leading-21">❤️</p>
@@ -197,27 +208,24 @@ function ArtCard({ jobId, job, successResult }) {
               </p>
             </div>
           </div>
-          <div className="absolute h-full w-full z-10 shadow-cb rounded-12 top-0 left-0"></div>
-          <div className="flex flex-col mt-1 gap-[6px]">
-            <InfoLine title="Beneficiary" info={job.beneficiary} />
-            <InfoLine
-              title="Tx Block"
-              info={
-                <a
-                  href={`https://polkadot.js.org/apps/?rpc=wss%3A%2F%2Fnode-rpc.cybros.network%2F#/explorer/query/${job.createdIn}`}
-                >
-                  {job.createdIn}
-                </a>
-              }
-            />
-            <ActionArea
-              setMinted={setMinted}
-              minted={minted}
-              job={job}
-              status={status}
-              url={`/imaginator/${jobId}`}
-            />
-          </div>
+        </div>
+        <div className="flex flex-col mt-1 gap-[6px]">
+          <InfoLine title="Beneficiary" info={job.beneficiary} />
+          <InfoLine
+            title="Tx Block"
+            info={
+              <a href={`${ON_POLKADOT_QUERY_URL}${job.createdIn}`}>
+                {job.createdIn}
+              </a>
+            }
+          />
+          <ActionArea
+            setMinted={setMinted}
+            minted={minted}
+            job={job}
+            status={status}
+            url={`/imaginator/${jobId}`}
+          />
         </div>
       </div>
     </div>
