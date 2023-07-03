@@ -12,6 +12,10 @@ body {
   background-color: var(--background);
 }
 
+.cb-modal .ant-modal-content, .cb-modal .ant-modal-content .ant-modal-header {
+  border-radius: 28px;
+}
+
 @layer components {
   .cb-border-h {
     @apply shadow-cb hover:shadow-hv;

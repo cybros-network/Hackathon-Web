@@ -8,7 +8,7 @@ import {
 } from "wagmi";
 import { parseEther, hashMessage, recoverPublicKey, stringToBytes } from "viem";
 import { currentCybrosAddress, useAppStatus } from "@/utils/atoms";
-import { JOB_CONTRACT_ABI, JOB_CONTRACT_ADDRESS } from "@/constants";
+import { JOB_CONTRACT_ABI, JOB_CONTRACT_ADDRESS, ON_POLKADOT_QUERY_URL } from "@/constants";
 import {
   blake2AsU8a,
   encodeAddress,
@@ -16,6 +16,8 @@ import {
 } from "@polkadot/util-crypto";
 import { hexToU8a, u8aToHex } from "@polkadot/util";
 import { useSetAtom } from "jotai";
+import { Spin, Modal } from "antd";
+import { LoadingOutlined } from "@ant-design/icons";
 
 function PromptInput() {
   const account = useAccount();
@@ -27,14 +29,21 @@ function PromptInput() {
   const [prompt, setPrompt] = React.useState("");
   const { data: statusData } = useAppStatus();
 
-  const { isLoading, isSuccess } = useWaitForTransaction({
+  const { isSuccess } = useWaitForTransaction({
     currentTxHash,
   });
+
+  const [isSubmitting, setIsSubmitting] = useState(false);
 
   const setCurrentCybrosAddress = useSetAtom(currentCybrosAddress);
 
   useEffect(() => {
-    console.log("sending tx", currentTxHash);
+    // console.log("sending tx", currentTxHash);
+    if (currentTxHash && currentTxHash !== "") {
+      console.log("currentTx: ");
+      console.log(currentTxHash);
+      setShow(true);
+    }
   }, [currentTxHash]);
 
   const sendTx = async () => {
@@ -79,50 +88,83 @@ function PromptInput() {
       abi: JOB_CONTRACT_ABI,
       account: account.address,
     });
-    console.log(request);
-    const hash = await walletClient.writeContract(request);
-    console.log(hash);
+    console.log("writing contract");
+    setIsLoading(true);
+    const hash = await walletClient.writeContract(request).finally(() => setIsLoading(false));
     setCurrentTxHash(hash);
   };
 
+  const [show, setShow] = useState(false);
+  const [isLoading, setIsLoading] = useState(false);
+
+  const SpinIndicator = (tint?: string) => {
+    return <LoadingOutlined style={{ fontSize: 34, color: (tint ?? undefined) }} spin />;
+  };
+
   return (
-    <div className="flex flex-col gap-[18px] bg-white/[0.72] shadow-cb rounded-15">
-      {isSuccess && (
-        <div className="text-[40px]">Successfully! hash: ${currentTxHash}</div>
-      )}
-      <div className="flex justify-between items-start ml-[39px] mr-[42px] mt-[27px]">
-        <div className="text-[21px] font-medium leading-[25.41px]">
-          Generate
+    <Spin indicator={SpinIndicator("4F4F4F")}
+      spinning={isLoading}
+      size='large'
+      className="my-8"
+      style={{ borderRadius: "44px" }}>
+      <div className="flex flex-col gap-[18px] bg-white/[0.72] shadow-cb rounded-15">
+        <Modal open={show}
+          centered width={490}
+          footer={null}
+          className="cb-modal"
+          onCancel={() => setShow(false) }
+          maskClosable={true}>
+          <div className="flex flex-col justify-items-center bg-white">
+            <Spin indicator={SpinIndicator()} spinning={true} size='large' className="my-8" style={{ borderRadius: "44px" }} />
+            <p className=" text-black text-[34px] leading-[40px] text-center font-bold">
+              Your contract is being
+              <br />
+              deployed
+            </p>
+            <p className="text-[14px] leading-[25px] font-medium ext-cb-normal mt-[22px] text-center mx-[20px]">
+              Your new contract is being deployed. It may take some time
+              <br />
+              for the transaction to be processed and the collection to be
+              <br />
+              reflected on OpenSea.
+            </p>
+            <a href={`${"https://polkadot.js.org/apps/?rpc=wss%3A%2F%2Fnode-rpc.cybros.network%2F#/explorer"}${currentTxHash}`} className="text-[14px] text-blue-500 text-center my-[28px] font-medium" >View on Polygonscan</a>
+          </div>
+        </Modal>
+        <div className="flex justify-between items-start ml-[39px] mr-[42px] mt-[27px]">
+          <div className="text-[21px] font-medium leading-[25.41px]">
+            Generate
+          </div>
+          <div className="font-medium text-[15px] leading-[29px] text-cb-normal">
+            finalized height:{" "}
+            {typeof statusData?.height === "number" ? statusData.height : "..."}
+            {" | "}
+            pending jobs:{" "}
+            {typeof statusData?.queueSize === "number"
+              ? statusData.queueSize
+              : "..."}
+          </div>
         </div>
-        <div className="font-medium text-[15px] leading-[29px] text-cb-normal">
-          finalized height:{" "}
-          {typeof statusData?.height === "number" ? statusData.height : "..."}
-          {" | "}
-          pending jobs:{" "}
-          {typeof statusData?.queueSize === "number"
-            ? statusData.queueSize
-            : "..."}
+        <div className="flex rounded-15 mx-[30px] bg-[#F1F1F1] text-[16px] min-h-[90px]">
+          <textarea
+            className="mt-[18px] mb-[8px]  mx-6 w-full border-none outline-none shadow-none text-cb-normal bg-[#F1F1F1] leading-21 font-normal"
+            placeholder="Prompt goes here..."
+            value={prompt}
+            onChange={(e) => setPrompt(e.target.value)}
+            disabled={isLoading}
+          ></textarea>
+        </div>
+        <div className="flex justify-start mx-[33px] mb-6">
+          <button
+            className=" justify-center items-center cb-border-h shadow-entrance-aigc hover:shadow-entrance-aigc  text-entrance-aigc font-medium leading-[21px] rounded-15 bg-white/[0.72] text-[16px] h-[45px]"
+            onClick={sendTx}
+            disabled={isLoading || prompt.trim() === ""}
+          >
+            <p className="mx-6">{isLoading ? "Generating" : "Generate"}</p>
+          </button>
         </div>
       </div>
-      <div className="flex rounded-15 mx-[30px] bg-[#F1F1F1] text-[16px] min-h-[90px]">
-        <textarea
-          className="mt-[18px] mb-[8px]  mx-6 w-full border-none outline-none shadow-none text-cb-normal bg-[#F1F1F1] leading-21 font-normal"
-          placeholder="Prompt goes here..."
-          value={prompt}
-          onChange={(e) => setPrompt(e.target.value)}
-          disabled={isLoading}
-        ></textarea>
-      </div>
-      <div className="flex justify-start mx-[33px] mb-6">
-        <button
-          className=" justify-center items-center cb-border-h shadow-entrance-aigc hover:shadow-entrance-aigc  text-entrance-aigc font-medium leading-[21px] rounded-15 bg-white/[0.72] text-[16px] h-[45px]"
-          onClick={sendTx}
-          disabled={isLoading || prompt.trim() === ""}
-        >
-          <p className="mx-6">{isLoading ? "Generating" : "Generate"}</p>
-        </button>
-      </div>
-    </div>
+    </Spin>
   );
 }
 
