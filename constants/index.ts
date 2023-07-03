@@ -171,7 +171,7 @@ export const entranceConfig: {
 } = {
   main: {
     primaryColor: "#A43737",
-    borderColor: "shadow-entrance-aigc hover:shadow-entrance-aigc",
+    borderColor: "shadow-entrance-aigc",
     titleDirection: "row",
     title: "The Imaginator Demo",
     description:
@@ -183,7 +183,7 @@ export const entranceConfig: {
   subs: [
     {
       primaryColor: "#3C3C3C",
-      borderColor: "shadow-entrance-github hover:shadow-entrance-github",
+      borderColor: "shadow-entrance-github",
       titleDirection: "col",
       title: "Github",
       description: "Check us out on Github.",
@@ -193,7 +193,7 @@ export const entranceConfig: {
     },
     {
       primaryColor: "#374FA6",
-      borderColor: "shadow-entrance-discord hover:shadow-entrance-discord",
+      borderColor: "shadow-entrance-discord",
       titleDirection: "col",
       title: "Discord",
       description: "Join our Discord server!",
@@ -203,7 +203,7 @@ export const entranceConfig: {
     },
     {
       primaryColor: "#A45E37",
-      borderColor: "shadow-entrance-testnet hover:shadow-entrance-testnet",
+      borderColor: "shadow-entrance-testnet",
       titleDirection: "col",
       title: "Cybros on Polkadot.js",
       description: "Play directly with Cybros testnet.",
@@ -212,7 +212,7 @@ export const entranceConfig: {
       width: 314,
       addtion: {
         className:
-          "flex flex-row justify-center items-center rounded-15 w-[101px] cb-border-h shadow-entrance-testnet hover:shadow-entrance-testnet bg-white text-[16px] font-medium leading-21 text-entrance-testnet",
+          "flex flex-row justify-center items-center rounded-15 w-[101px] shadow-cb transition-shadow duration-100  shadow-entrance-testnet hover:shadow-faucetEn bg-white text-[16px] font-medium leading-21 text-entrance-testnet",
         title: "Faucet",
         link: FAUCET_URL,
       },

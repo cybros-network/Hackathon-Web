@@ -18,6 +18,9 @@ body {
 
 @layer components {
   .cb-border-h {
-    @apply shadow-cb hover:shadow-hv;
+    @apply shadow-cb hover:shadow-hv transition-shadow duration-100
+  }
+  .cb-hover-border {
+    @apply hover:shadow-hv transition-shadow duration-100
   }
 }

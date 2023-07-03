@@ -41,7 +41,7 @@ const ActionArea = ({ job, minted, setMinted, status, url }) => {
   return (
     <div className="flex flex-row justify-between gap-2 h-[45px] text-[16px] leading-21 font-medium -mx-[3px]">
       {canMint && (
-        <button className="cb-border-h rounded-15 shadow-[#219653] hover:shadow-[#219653] bg-white text-[#219653] w-full">
+        <button className="cb-border-h rounded-15 shadow-[#219653] bg-white text-[#219653] w-full">
           Mint
         </button>
       )}
