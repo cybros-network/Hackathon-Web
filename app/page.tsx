@@ -30,9 +30,7 @@ export default function Home() {
           Web3 Job Scheduler connecting everything
         </div>
         <div className="whitespace-pre-wrap mr-[136px] mt-[27px] leading-22 text-[15px]">
-          {`Generate NFT arts with distributed AI compute power on Cybros and mint them on Ethereum. Generate NFT arts with distributed AI compute power on Cybros and mint them on Ethereum. Generate NFT arts with distributed AI compute power on Cybros and mint them on Ethereum. Generate NFT arts with distributed AI compute power on Cybros and mint them on Ethereum. Generate NFT arts with distributed AI compute power on Cybros and mint them on Ethereum.
-
-Generate NFT arts with distributed AI compute power on Cybros and mint them on Ethereum. Generate NFT arts with distributed AI compute power on Cybros and mint them on Ethereum.`}
+          {" "}
         </div>
         <div className="-mx-[3px] my-[49px]">
           <div className="flex flex-col justify-start gap-[21px]">

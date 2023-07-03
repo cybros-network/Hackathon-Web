@@ -33,29 +33,29 @@ const WalletButton = () => {
     return address.slice(0, 5) + "..." + address.slice(-4);
   }, [address]);
 
-  useEffect(() => {
-    if (!address) return;
-    if (!walletClient) return;
-    (async () => {
-      console.log(address);
-      const input =
-        "Sign to get your identity on Cybros Network and mint NFTs.";
-      const hashedMessage = hashMessage(input);
-      const signatureHex = await walletClient?.signMessage({ message: input });
-      const recoveredPublicKey = await recoverPublicKey({
-        hash: hashedMessage,
-        signature: signatureHex,
-      });
-      const compressedEvmPublicKey = secp256k1Compress(
-        hexToU8a(recoveredPublicKey)
-      );
-      const subAddressFromEvmPublicKey = encodeAddress(
-        blake2AsU8a(compressedEvmPublicKey),
-        42
-      );
-      setCurrCybrosAdd(subAddressFromEvmPublicKey);
-    })();
-  }, [address, walletClient]);
+  // useEffect(() => {
+  //   if (!address) return;
+  //   if (!walletClient) return;
+  //   (async () => {
+  //     console.log(address);
+  //     const input =
+  //       "Sign to get your identity on Cybros Network and mint NFTs.";
+  //     const hashedMessage = hashMessage(input);
+  //     const signatureHex = await walletClient?.signMessage({ message: input });
+  //     const recoveredPublicKey = await recoverPublicKey({
+  //       hash: hashedMessage,
+  //       signature: signatureHex,
+  //     });
+  //     const compressedEvmPublicKey = secp256k1Compress(
+  //       hexToU8a(recoveredPublicKey)
+  //     );
+  //     const subAddressFromEvmPublicKey = encodeAddress(
+  //       blake2AsU8a(compressedEvmPublicKey),
+  //       42
+  //     );
+  //     setCurrCybrosAdd(subAddressFromEvmPublicKey);
+  //   })();
+  // }, [address, walletClient]);
 
   const WalletTitle = () => {
     if (isLoading) {
@@ -77,11 +77,11 @@ const WalletButton = () => {
       onClick={
         !isLoading && isConnected
           ? () => {
-            disconnect();
-          }
+              disconnect();
+            }
           : () => {
-            connect({ connector: connectors[0] });
-          }
+              connect({ connector: connectors[0] });
+            }
       }
     >
       <Image
