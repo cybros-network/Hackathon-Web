@@ -8,7 +8,7 @@ const IndexEntrace = ({ primaryColor, borderColor, titleDirection, title, descri
   const widthValue =  width.toString() + "px";
   
   return (
-    <div className={`rounded-15 shadow-cb ${borderColor} flex flex-col justify-between bg-white h-[195px]`}
+    <div className={`rounded-15 cb-border-h ${borderColor} flex flex-col justify-between bg-white h-[195px]`}
       style={{
         width: widthValue,
         color: primaryColor

@@ -1,4 +1,4 @@
-import { AIGCCardProps, IndexEntranceProps } from "@/types";
+import { IndexEntranceProps } from "@/types";
 
 import { DM_Mono } from "next/font/google";
 import { ParseAbi } from "viem";
