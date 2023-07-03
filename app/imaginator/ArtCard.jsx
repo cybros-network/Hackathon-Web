@@ -137,7 +137,7 @@ function ArtCardWrapper({ jobId }) {
           metadata,
         });
         attempt += 1;
-        if (attempt >= 50 && !data) {
+        if (attempt >= 80 && !data) {
           setTimeout(update, 6000);
         }
       }
