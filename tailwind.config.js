@@ -19,7 +19,8 @@ module.exports = {
       },
       boxShadow: {
         cb: "inset 0 0 0 2px #828282",
-        hv: "0 0 0 2px #828282 inset, 0 0 9px 0 #828282",
+        hv: "0 0 0 0px #00000000 inset, 0 0 9px 0 #00000035",
+        faucetEn:  "0 0 0 2px #A45E37 inset, 0 0 9px 0 #00000035"
       },
       lineHeight: {
         21: "21px",

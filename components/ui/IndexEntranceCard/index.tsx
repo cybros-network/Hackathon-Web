@@ -8,7 +8,7 @@ const IndexEntrace = ({ primaryColor, borderColor, titleDirection, title, descri
   const widthValue =  width.toString() + "px";
   
   return (
-    <div className={`rounded-15 cb-border-h ${borderColor} flex flex-col justify-between bg-white h-[195px]`}
+    <div className={`rounded-15 ${borderColor} flex flex-col justify-between bg-white h-[195px]`}
       style={{
         width: widthValue,
         color: primaryColor
@@ -19,7 +19,7 @@ const IndexEntrace = ({ primaryColor, borderColor, titleDirection, title, descri
       <div>
         <p className="mb-[15px] ml-[18px] mr-[55px] text-[14px]">{description}</p>
         <div className="flex flex-row justify-star text-white text-[16px] font-medium leading-21 mx-[15px] mb-[18px] gap-[9px] h-[45px]">
-          <Link href={goLink} className={"flex justify-center items-center rounded-15 w-[76px]"} 
+          <Link href={goLink} className={"flex justify-center items-center rounded-15 w-[76px] cb-hover-border"} 
             style={ {background: primaryColor} }
           >
             Go 

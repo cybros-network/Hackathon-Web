@@ -182,7 +182,7 @@ function PromptInput() {
         </div>
         <div className="flex justify-start mx-[33px] mb-6">
           <button
-            className=" justify-center items-center cb-border-h shadow-entrance-aigc hover:shadow-entrance-aigc  text-entrance-aigc font-medium leading-[21px] rounded-15 bg-white/[0.72] text-[16px] h-[45px]"
+            className=" justify-center items-center shadow-cb shadow-entrance-aigc hover:shadow-faucetEn text-entrance-aigc font-medium leading-[21px] rounded-15 bg-white/[0.72] text-[16px] h-[45px]"
             onClick={sendTx}
             disabled={isLoading || prompt.trim() === ""}
           >

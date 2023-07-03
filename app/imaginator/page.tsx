@@ -29,37 +29,35 @@ export default function ImaginatorPage() {
         </div>
         <WalletButton />
       </header>
-
-      <div className="flex flex-col justify-start gap-[6px] mt-[42px] mx-[84px] text-cb-value text-[14px] leading-[17px] bg-white/[0.72] shadow-cb rounded-15">
-        <p className="text-[16px] leading-[19px] mx-6 mt-[30px]">
-          In this demo:
-        </p>
-        <div className="mx-9 flex flex-col justify-start mb-9">
-          <p>
-            • Use your Polygon account to generate arts with AI compute
-            power running on Cybros testnet.
-            <br />• All generated arts will be sent to the
-            <a className="text-[#fa2dff]" href={DC_URL} target="_blank">
-              {" "}
-              #demo-arts{" "}
-            </a>
-            channel in
-            <a className="text-[#fa2dff]" href={DC_URL} target="_blank">
-              {" "}
-              our Discord server
-            </a>
-            , and the ❤️ reaction will be represented on on-chain data of
-            the testnet.
-            <br />• Mint ERC-721 NFT with your generated arts so you can
-            check it out on Opensea.
-          </p>
-        </div>
-      </div>
-      <div className="mt-[21px] mx-[84px]">
-        <PromptInput />
-      </div>
-      <div className="flex justify-center items-center">
+      <div className="flex flex-col items-center">
         <div className="w-[1346px] ">
+          <div className="flex flex-col justify-start gap-[6px] mt-[42px]  text-cb-value text-[14px] leading-[17px] bg-white/[0.72] shadow-cb rounded-15">
+            <p className="text-[16px] leading-[19px] mx-9 mt-[30px]">
+              In this demo:
+            </p>
+            <div className="flex flex-col justify-start mx-9 mb-9 text-[14px] font-normal leading-[17px]">
+              <p>&nbsp;•&nbsp; Use your Polygon account to generate arts with AI compute
+                power running on Cybros testnet.
+              <br />&nbsp;•&nbsp; All generated arts will be sent to the
+              <a className="text-[#fa2dff]" href={DC_URL} target="_blank">
+                {" "}
+                  #demo-arts{" "}
+              </a>
+                channel in
+              <a className="text-[#fa2dff]" href={DC_URL} target="_blank">
+                {" "}
+                  our Discord server
+              </a>
+                , and the ❤️ reaction will be represented on on-chain data of
+                the testnet.
+              <br />&nbsp;•&nbsp; Mint ERC-721 NFT with your generated arts so you can
+                check it out on Opensea.
+              </p>
+            </div>
+          </div>
+          <div className="mt-[21px]">
+            <PromptInput />
+          </div>
           <ArtList />
         </div>
       </div>
