@@ -15,7 +15,7 @@ export default function ImaginatorPage() {
 
   return (
     <div className="text-black">
-      <header className="flex flex-row justify-between mt-[51px] ml-[42px] mr-[54px] h-[59px] text-cb-value">
+      <header className="flex flex-row justify-between mt-[45px] mx-[48px] h-[59px] text-cb-value">
         <div
           className="flex items-start gap-[21px]"
           onClick={() => router.push("/")}
