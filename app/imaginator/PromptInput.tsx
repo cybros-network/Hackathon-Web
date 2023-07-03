@@ -128,7 +128,7 @@ function PromptInput() {
               <br />
               reflected on OpenSea.
             </p>
-            <a href={`${"https://polkadot.js.org/apps/?rpc=wss%3A%2F%2Fnode-rpc.cybros.network%2F#/explorer"}${currentTxHash}`} className="text-[14px] text-blue-500 text-center my-[28px] font-medium" >View on Polygonscan</a>
+            <a href={`${"https://polygonscan.com/tx/"}${currentTxHash}`} className="text-[14px] text-blue-500 text-center my-[28px] font-medium" >View on Polygonscan</a>
           </div>
         </Modal>
         <div className="flex justify-between items-start ml-[39px] mr-[42px] mt-[27px]">
