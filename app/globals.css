@@ -11,3 +11,9 @@ body {
   min-width: 1440px;
   background-color: var(--background);
 }
+
+@layer components {
+  .cb-border-h {
+    @apply shadow-cb hover:shadow-hv;
+  }
+}
