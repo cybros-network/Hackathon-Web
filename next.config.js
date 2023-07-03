@@ -15,6 +15,9 @@ const nextConfig = {
   eslint: {
     ignoreDuringBuilds: process.env.CI === "false",
   },
+  typescript: {
+    ignoreBuildErrors: process.env.CI === "false",
+  },
 };
 
 module.exports = nextConfig;
