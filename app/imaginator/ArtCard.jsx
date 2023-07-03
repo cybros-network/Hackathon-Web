@@ -1,5 +1,4 @@
 import React, { useEffect, useMemo, useState } from "react";
-import Image from "next/image";
 import { API_URL, dm_mono_font, ON_POLKADOT_QUERY_URL } from "@/constants";
 import Link from "next/link";
 import axios from "axios";

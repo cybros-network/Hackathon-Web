@@ -202,16 +202,16 @@ export default function Page({ params }: { params: { id: string } }) {
             <p className="text-4xl font-semibold leading-[44px]">Job #{jobId}</p>
             <p className="text-[17px] font-medium mt-[6px]">in Pool #{res.data.poolId}</p>
           </div>
-          <div className="flex flex-row items-start mx-[84px] mt-9 gap-[21px]">
-            <div className="shadow-cb rounded-15 w-[407px]">
-              <div className="flex flex-col content-start items-start ml-[32px] gap-6 mt-9 mb-[58px]">
+          <div className="flex flex-row justify-between items-start mx-[84px] mt-9 gap-[21px]">
+            <div className="shadow-cb rounded-15 shrink-0">
+              <div className="flex flex-col items-start mx-8 mr-[172px] gap-6 mt-9 mb-[58px]">
                 <BlockInfo title="Job Created" block={res.data.createdIn} info={res.data.createdAt} />
                 <BlockInfo title="Job Assigned" block={res.data.assignment.createdIn} info={res.data.assignment.createdAt} />
                 <BlockInfo title="Job Processed" block={res.data.result.createdIn} info={res.data.result.createdAt} />
               </div>
             </div>
 
-            <div className="shadow-cb rounded-15 w-full">
+            <div className="shadow-cb rounded-15 flex-grow inline-block">
               <div className="flex flex-col gap-[18px] my-9 mx-[32px]">
                 <PlaygroundInfo title="Block" info={res.data.createdIn} />
                 <PlaygroundInfo
