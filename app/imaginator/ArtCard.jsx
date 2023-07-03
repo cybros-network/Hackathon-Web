@@ -1,6 +1,6 @@
 import React, { useEffect, useMemo, useState } from "react";
 import Image from "next/image";
-import { API_URL, dm_mono_font } from "@/constants";
+import { API_URL, dm_mono_font, ON_POLKADOT_QUERY_URL } from "@/constants";
 import Link from "next/link";
 import axios from "axios";
 import { useAtomValue } from "jotai";
@@ -173,7 +173,7 @@ function ArtCard({ jobId, job, successResult }) {
   const imageSrc = useMemo(() => {
     return successResult.data?.image ?? (
       status === "Error" ? "/ghost.svg" : "/bolt.svg"
-    )
+    );
   }, [fetchImageError]);
 
   return (
@@ -197,9 +197,6 @@ function ArtCard({ jobId, job, successResult }) {
             priority={true}
             width={ !successResult.data?.image ? 24 : 284}
             height={ !successResult.data?.image ? 24 : 284}
-            onError={ (e) => {
-            }
-          }
           ></Image>
           <div className="absolute right-[6px] bottom-[9px] rounded-15 bg-white text-[#FF2828] font-medium leading-21">
             <div className="flex justify-between gap-[7px] mx-3 my-1">
@@ -216,7 +213,7 @@ function ArtCard({ jobId, job, successResult }) {
               title="Tx Block"
               info={
                 <a
-                  href={`https://polkadot.js.org/apps/?rpc=wss%3A%2F%2Fnode-rpc.cybros.network%2F#/explorer/query/${job.createdIn}`}
+                  href={`${ON_POLKADOT_QUERY_URL}${job.createdIn}`}
                 >
                   {job.createdIn}
                 </a>

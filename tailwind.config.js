@@ -20,6 +20,9 @@ module.exports = {
       boxShadow: {
         cb: "inset 0 0 0 2px #828282",
       },
+      dropShadow: {
+        buttons: "0 0 9px 0 #828282", 
+      },
       lineHeight: {
         21: "21px",
         22: "22px",
