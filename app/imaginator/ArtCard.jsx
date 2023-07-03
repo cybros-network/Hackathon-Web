@@ -145,8 +145,7 @@ function ArtCardWrapper({ jobId }) {
     update().catch(() => {
       // noop
     });
-    return clearTimeout(timeout);
-  }, [res.data?.result?.status]);
+    return clearTimeout(timeout);  }, [res.data?.result?.status]);
 
   return res.data ? (
     <ArtCard job={res.data} jobId={jobId} successResult={successResult} />
@@ -164,11 +163,19 @@ function ArtCard({ jobId, job, successResult }) {
     }
     return job.status;
   }, [minted, job.status, job.result?.status]);
+
   const backgroundColor = useMemo(() => {
     return BG_COLOR_MAP[status];
   }, [status]);
 
-  // todo: show placeholder when no image shown
+  const [fetchImageError, setFetchImageError] = useState(false);
+
+  const imageSrc = useMemo(() => {
+    return successResult.data?.image ?? (
+      status === "Error" ? "/ghost.svg" : "/bolt.svg"
+    )
+  }, [fetchImageError]);
+
   return (
     <div
       className="shadow-cb rounded-15 text-cb-normal h-[545px] w-[314px]"
@@ -182,12 +189,17 @@ function ArtCard({ jobId, job, successResult }) {
         <div className="w-[284px] h-[284px] -mx-[3px] relative">
           <Image
             className="h-full w-full aspect-square rounded-12 block shadow-cb"
-            src={successResult.data?.image}
+            src={ imageSrc }
+            placeholder="fill"
+            blurDataURL="/Spiral.svg"
             alt=""
-            style={{ objectFit: "fill" }}
+            style={{ objectFit: !successResult.data?.image ? "none" : "fill" }}
             priority={true}
-            width={512}
-            height={512}
+            width={ !successResult.data?.image ? 24 : 284}
+            height={ !successResult.data?.image ? 24 : 284}
+            onError={ (e) => {
+            }
+          }
           ></Image>
           <div className="absolute right-[6px] bottom-[9px] rounded-15 bg-white text-[#FF2828] font-medium leading-21">
             <div className="flex justify-between gap-[7px] mx-3 my-1">
