@@ -3,6 +3,8 @@ import Image from "next/image";
 import { API_URL, dm_mono_font } from "@/constants";
 import Link from "next/link";
 import axios from "axios";
+import { useAtomValue } from "jotai";
+import { currentCybrosAddress } from "@/utils/atoms";
 
 const BG_COLOR_MAP = {
   Pending: "#FF6F2D0F",
@@ -32,8 +34,11 @@ const InfoLine = ({ title, info }) => {
   );
 };
 
-const ActionArea = ({ status, url }) => {
-  const canMint = status === "Success";
+const ActionArea = ({ job, minted, setMinted, status, url }) => {
+  const currCybrosAcc = useAtomValue(currentCybrosAddress);
+  const beneficiary = job.beneficiary;
+  const canMint =
+    status === "Success" && currCybrosAcc === beneficiary && !minted;
   return (
     <div className="flex flex-row justify-between gap-2 h-[45px] text-[16px] leading-21 font-medium -mx-[3px]">
       {canMint && (
@@ -205,7 +210,13 @@ function ArtCard({ jobId, job, successResult }) {
                 </a>
               }
             />
-            <ActionArea status={status} url={`/imaginator/${jobId}`} />
+            <ActionArea
+              setMinted={setMinted}
+              minted={minted}
+              job={job}
+              status={status}
+              url={`/imaginator/${jobId}`}
+            />
           </div>
         </div>
       </div>
