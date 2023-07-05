@@ -1,10 +1,13 @@
 import React, { useMemo } from "react";
-import { useAppStatus } from "@/utils/atoms";
+import { shouldHideErrorJobsAtom, useAppStatus } from "@/utils/atoms";
 import ArtCard from "@/app/imaginator/ArtCard";
+import { useAtom } from "jotai";
 
 export default function ImaginatorList() {
   const { data: statusData } = useAppStatus();
   const latestJobId = statusData?.latestJobId || 0;
+
+  const [shouldHide, setShouldHide] = useAtom(shouldHideErrorJobsAtom);
 
   const idList = useMemo(() => {
     if (!latestJobId) return [];
@@ -28,6 +31,18 @@ export default function ImaginatorList() {
         {/*  />*/}
         {/*  <span className="ml-3 text-cb-value">only show my arts</span>*/}
         {/*</label>*/}
+        <label htmlFor="my-checkbox" className="inline-flex items-center">
+          <input
+            id="my-checkbox"
+            type="checkbox"
+            className="form-checkbox h-[18px] w-[18px] shadow-cb-normal shadow-cb rounded-[3px]"
+            checked={shouldHide}
+            onChange={(e) => {
+              setShouldHide(e.target.checked);
+            }}
+          />
+          <span className="ml-3 text-cb-value">hide failed jobs</span>
+        </label>
       </div>
       <div className="mt-7 mb-14 flex flex-wrap gap-[30px]">
         {idList.map((id) => {

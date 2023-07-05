@@ -11,6 +11,8 @@ export const appStatusAtom = atom<RequestAtom<AppStatus>>({
   metadata: null,
 });
 
+export const shouldHideErrorJobsAtom = atom<boolean>(true);
+
 export const useAppStatus = () => useAtomValue(appStatusAtom);
 
 export const useAppStatusUpdater = () => {

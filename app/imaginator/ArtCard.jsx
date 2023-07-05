@@ -3,7 +3,7 @@ import { API_URL, dm_mono_font, ON_POLKADOT_QUERY_URL } from "@/constants";
 import Link from "next/link";
 import axios from "axios";
 import { useAtomValue } from "jotai";
-import { currentCybrosAddress } from "@/utils/atoms";
+import { currentCybrosAddress, shouldHideErrorJobsAtom } from "@/utils/atoms";
 
 const BG_COLOR_MAP = {
   Pending: "#FF6F2D0F",
@@ -68,8 +68,11 @@ function ArtCardWrapper({ jobId }) {
     metadata: null,
   });
   const loadingFinished = useMemo(() => {
-    return res.data?.status === "Processed" || res.data?.status === "Discarded";
-  }, [res.data?.status]);
+    if (res.data?.status === "Processed") {
+      return res.data?.result?.status !== "Success";
+    }
+    return res.data?.status === "Discarded";
+  }, [res.data?.result?.status, res.data?.status]);
 
   useEffect(() => {
     if (!jobId) return;
@@ -101,7 +104,7 @@ function ArtCardWrapper({ jobId }) {
     update().catch(() => {
       // noop
     });
-    return clearTimeout(timeout);
+    return () => clearTimeout(timeout);
   }, [jobId, setRes, loadingFinished]);
 
   useEffect(() => {
@@ -145,7 +148,7 @@ function ArtCardWrapper({ jobId }) {
     update().catch(() => {
       // noop
     });
-    return clearTimeout(timeout);
+    return () => clearTimeout(timeout);
   }, [res.data?.result?.status]);
 
   return res.data ? (
@@ -155,6 +158,10 @@ function ArtCardWrapper({ jobId }) {
 
 function ArtCard({ jobId, job, successResult }) {
   const [minted, setMinted] = useState(false);
+  console.log(successResult);
+
+  const shouldHideError = useAtomValue(shouldHideErrorJobsAtom);
+
   const status = useMemo(() => {
     if (minted) {
       return "Minted";
@@ -165,11 +172,17 @@ function ArtCard({ jobId, job, successResult }) {
     return job.status;
   }, [minted, job.status, job.result?.status]);
 
+  const shouldShow = useMemo(() => {
+    return (
+      status === "Success" || status === "Pending" || status === "Processing"
+    );
+  }, [status]);
+
   const backgroundColor = useMemo(() => {
     return BG_COLOR_MAP[status];
   }, [status]);
 
-  return (
+  return !shouldHideError || shouldShow ? (
     <div
       className="shadow-cb rounded-15 text-cb-normal h-[545px] w-[314px]"
       style={{ backgroundColor }}
@@ -234,7 +247,7 @@ function ArtCard({ jobId, job, successResult }) {
         </div>
       </div>
     </div>
-  );
+  ) : null;
 }
 
 export default ArtCardWrapper;
