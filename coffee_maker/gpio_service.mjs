@@ -58,6 +58,7 @@ async function makeCoffee(ssh) {
 function startWebServer(ssh) {
   const app = express();
   const port = parseInt(process.env.WEB_PORT) || 5666;
+  const host = process.env.WEB_HOST || "127.0.0.1";
 
   app.get("/kohi", (res, req) => {
     req.json(state);
@@ -81,8 +82,8 @@ function startWebServer(ssh) {
 
   return new Promise((resolve, reject) => {
     try {
-      app.listen(port, () => {
-        console.log(`Started server for coffee machine GPIO on port ${port}!`);
+      app.listen(port, host, () => {
+        console.log(`Started server for coffee machine GPIO on ${host}:${port}!`);
         resolve();
       });
     } catch (e) {

@@ -1,0 +1,9 @@
+.DS_Store
+*.swp
+.vscode
+.idea
+
+/data
+/log
+**/tmp
+**/.env
