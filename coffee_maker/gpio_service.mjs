@@ -1,7 +1,9 @@
 import { NodeSSH } from "node-ssh";
 import PQueue from "p-queue";
+import express from "express";
 
 const sshExecQueue = new PQueue({ concurrency: 1 });
+const coffeeQueue = new PQueue({ concurrency: 1 });
 
 const wait = (t) => new Promise((resolve) => setTimeout(resolve, t));
 
@@ -9,7 +11,7 @@ const state = {
   mbstate1: [],
   mbstate2: [],
   isIdle: false,
-  isMaintainance: false,
+  isMaintenance: true,
 };
 
 async function watchState(ssh) {
@@ -26,15 +28,15 @@ async function watchState(ssh) {
     ).stdout;
     state.mbstate1.push(mbstate1);
     state.mbstate2.push(mbstate2);
-    if (state.mbstate1.length > 5) {
+    if (state.mbstate1.length > 8) {
       state.mbstate1.shift();
     }
-    if (state.mbstate2.length > 5) {
+    if (state.mbstate2.length > 3) {
       state.mbstate2.shift();
     }
     state.isIdle = state.mbstate1.includes("0");
-    state.isMaintainance = state.mbstate2.includes("0");
-    console.log(state);
+    state.isMaintenance = state.mbstate2.includes("0");
+    // console.log(state);
     await wait(50);
   }
 }
@@ -53,6 +55,42 @@ async function makeCoffee(ssh) {
   );
 }
 
+function startWebServer(ssh) {
+  const app = express();
+  const port = parseInt(process.env.WEB_PORT) || 5666;
+
+  app.get("/kohi", (res, req) => {
+    req.json(state);
+  });
+
+  app.post("/kohi", (res, req) => {
+    if (state.isIdle && !state.isMaintenance) {
+      coffeeQueue
+        .add(() => makeCoffee(ssh))
+        .then(() => {
+          req.json({ ok: true });
+        })
+        .catch((e) => {
+          console.warn(e);
+          req.json({ ok: false, error: e.toString() });
+        });
+    } else {
+      req.json({ ok: false, error: "Coffee machine not ready!" });
+    }
+  });
+
+  return new Promise((resolve, reject) => {
+    try {
+      app.listen(port, () => {
+        console.log(`Started server for coffee machine GPIO on port ${port}!`);
+        resolve();
+      });
+    } catch (e) {
+      reject(e);
+    }
+  });
+}
+
 async function main() {
   const ssh = new NodeSSH();
   await ssh.connect({
@@ -60,11 +98,13 @@ async function main() {
     port: parseInt(process.env.SSH_PORT) || 22,
     username: process.env.SSH_USERNAME || "root",
     password: process.env.SSH_PASSWORD || "114514",
+    timeout: 1000,
   });
 
-  await Promise.all([watchState(ssh)]);
+  await Promise.all([startWebServer(ssh), watchState(ssh)]);
 
-  console.log("disconnected");
+  console.log("All done, exiting...");
+  process.exit(0);
 }
 main().catch((e) => {
   console.error(e);
