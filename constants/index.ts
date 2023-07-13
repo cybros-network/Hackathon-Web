@@ -8,7 +8,7 @@ export const FAUCET_URL = "https://faucet.cybros.network/";
 export const ON_POLKADOT_URL =
   "https://polkadot.js.org/apps/?rpc=wss%3A%2F%2Fnode-rpc.cybros.network%2F#/explorer";
 export const JOB_CONTRACT_ADDRESS =
-  "0x6B77FE5436d4AC1e2b6E4DBAaCA5704b1560C68a";
+  "0xbB929470077b955Ea00c796fd6190A44CaBC9799";
 
 export const ALCHEMY_KEY =
   process.env.NEXT_PUBLIC_ALCHEMY_KEY || "ArM_wvoZ1OKmMayQEMtNJeWLrh8yqUhs";
