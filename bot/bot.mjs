@@ -73,11 +73,10 @@ export async function botMain(api, client) {
   const onReaction = async (reaction) => {
     if (reaction.message.channelId !== CHANNEL_ID) return;
     return reactionQueue.add(() => {
-      console.log(reaction.message);
+      getReactionCallback(reaction.message.id)(reaction).catch(console.error);
       return Promise.resolve();
     });
   };
-
 
   const onCoffeeReaction = async (interaction) => {
     if (interaction.channelId !== CHANNEL_ID_COFFEE) return;
