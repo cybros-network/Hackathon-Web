@@ -1,4 +1,4 @@
-import { Client, Events, GatewayIntentBits, Partials } from "discord.js";
+import { Client, Events, GatewayIntentBits, Partials, REST, Routes } from "discord.js";
 import { ApiPromise, WsProvider } from "@polkadot/api";
 import { botMain } from "./bot.mjs";
 import { cryptoWaitReady } from "@polkadot/util-crypto";
@@ -7,6 +7,7 @@ const SUBSTRATE_ENDPOINT =
   process.env.SUBSTRATE_ENDPOINT || "wss://node-rpc.cybros.network";
 
 export const CHANNEL_ID = "1124361718299119786";
+export const CHANNEL_ID_COFFEE = "1118884330291351592";
 
 function initPolkadotApi() {
   return new Promise((resolve, reject) => {
@@ -33,6 +34,7 @@ async function main() {
   await cryptoWaitReady();
   const api = await initPolkadotApi();
   console.log("Connected to substrate RPC");
+
   const client = new Client({
     intents: [
       GatewayIntentBits.Guilds,

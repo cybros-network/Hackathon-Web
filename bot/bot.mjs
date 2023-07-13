@@ -1,4 +1,4 @@
-import { CHANNEL_ID } from "./app.mjs";
+import { CHANNEL_ID, CHANNEL_ID_COFFEE } from "./app.mjs";
 import { Events } from "discord.js";
 import PQueue from "p-queue";
 import pDebounce from "p-debounce";
@@ -14,6 +14,12 @@ const reactionSendQueue = new PQueue({ concurrency: 1 });
 const messageSendQueue = new PQueue({ concurrency: 1 });
 
 export async function botMain(api, client) {
+  const chCoffee = await client.channels.fetch(CHANNEL_ID_COFFEE);
+  await chCoffee.guild.commands.set([{
+    name: 'give_me_a_coffee',
+    description: 'Get a free coffee at Polkadot 2023 Summber Hackathon.',
+  }])
+
   const ch = await client.channels.fetch(CHANNEL_ID);
   const keyring = new Keyring({ type: "sr25519" });
   // todo: read account from envvars
@@ -67,13 +73,49 @@ export async function botMain(api, client) {
   const onReaction = async (reaction) => {
     if (reaction.message.channelId !== CHANNEL_ID) return;
     return reactionQueue.add(() => {
-      getReactionCallback(reaction.message.id)(reaction).catch(console.error);
+      console.log(reaction.message);
+      return Promise.resolve();
+    });
+  };
+
+
+  const onCoffeeReaction = async (interaction) => {
+    if (interaction.channelId !== CHANNEL_ID_COFFEE) return;
+    return reactionQueue.add(async () => {
+      const tx = api.tx.offchainComputing.createJob(
+        105,
+        1,
+        1,
+        false,
+        JSON.stringify({
+          e2e: false,
+          data: JSON.stringify(interaction.user),
+        }),
+        null
+      );
+      try {
+        const t = await tx.signAndSend(charlie);
+        console.log(`Tx sent: ${t}`);
+        await interaction.reply({ content: '☕️ Your coffee is en route!', ephemeral: false });
+      } catch (e) {
+        console.error(e);
+        await interaction.reply({ content: 'Oops, the coffee service is down 😔.', ephemeral: false });
+      }
       return Promise.resolve();
     });
   };
 
   client.on(Events.MessageReactionAdd, onReaction);
   client.on(Events.MessageReactionRemove, onReaction);
+
+  client.on(Events.InteractionCreate, async interaction => {
+    if (!interaction.isChatInputCommand()) return;
+
+    if (interaction.commandName === 'give_me_a_coffee') {
+      await onCoffeeReaction(interaction)
+    }
+  });
+
   return chainListener(api, client, ch);
 }
 
